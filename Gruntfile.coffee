@@ -35,7 +35,7 @@ module.exports = (grunt) ->
 		# boots up nodemon for us		
 		nodemon:
 			dev:
-				scripts: "bin<%= path.sep =%>www"
+				scripts: "bin<%= path.sep %>www"
 				options:
 					env: nodemon.env
 					watch: [
@@ -65,7 +65,7 @@ module.exports = (grunt) ->
 		wiredep:
 			tasks: 
 				src: [
-					".<%= path.sep =%>views<%= path.sep =%>layout.jade"
+					"views<%= path.sep %>layout.jade"
 				]
 
 
@@ -413,9 +413,9 @@ module.exports = (grunt) ->
 	# grunt.registerTask("run", ["string-replace:dev", "less:dev", "uglify:dev", "concurrent:dev"])
 	# grunt.registerTask("dev", ["string-replace:dev", "less:dev", "uglify:dev", "concurrent:backend"])
 	# grunt.registerTask("vetcss", ["clean:tmp", "less:vet", "postcss:vet", "csslint:tmp"])
-	grunt.registerTask("wiredep")
 	grunt.registerTask("default", ["availabletasks"])
 	grunt.registerTask("serve-dev", ["concurrent:dev"])
+	# grunt.registerTask("wiredep")
 	
 
 
