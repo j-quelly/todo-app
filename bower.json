@@ -1,0 +1,23 @@
+{
+  "name": "todo-app",
+  "version": "0.0.1",
+  "homepage": "https://github.com/studio174/todo-app",
+  "authors": [
+    "Jamie Kelly <jamie@studio174.ca>"
+  ],
+  "description": "Mean stack app",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#~0.97.5"
+  }
+}

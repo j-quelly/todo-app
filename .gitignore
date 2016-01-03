@@ -39,4 +39,4 @@ $RECYCLE.BIN/
 *.lnk
 
 node_modules
-
+bower_components
