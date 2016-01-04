@@ -1,5 +1,36 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	.container
+		.row#login
+			.col.s12.center
+				h1 Docket.io
+				p Sign in to begin
+			.col.s12.m4.offset-m4
+				.card-panel.grey.lighten-4
+					.row.no-margin-bottom
+						.center
+							span.fa-stack.fa-4x
+								i.fa.fa-circle-o.fa-stack-2x
+								i.fa.fa-user.fa-stack-1x
+
+						.input-field.col.s12
+							input#username.validate(type='email')
+							label.active(for='username' data-error="Incorrect" data-success="Success") Username
+
+						.input-field.col.s12
+							input#password.validate(type='password')
+							label.active(for='password') Password
+
+						.col.s12
+							input.blue(type="checkbox")#remember-me
+							label(for="remember-me") Remember me
+
+						.col.s12
+							button.btn-large.blue Log In
+
+						.col.s12.right-align
+							p
+								a(href="#") Forgot password?
+				.center
+					a(href="#") Create account

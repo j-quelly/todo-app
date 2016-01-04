@@ -1,0 +1,17 @@
+{
+    "requireCurlyBraces": ["if","else","for","while","do","try","catch"],
+    "disallowEmptyBlocks": true,
+    "disallowMixedSpacesAndTabs": true,
+    "requireLineFeedAtFileEnd": true,
+    "requireSemicolons": true,
+    "disallowTrailingWhitespace": true,
+    "disallowTrailingComma": true,
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowSpaceAfterPrefixUnaryOperators": true,
+    "disallowMultipleLineStrings": true,
+    "validateParameterSeparator": ", ",
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
+    "requireMultipleVarDecl": true,
+    "disallowYodaConditions": true
+}
