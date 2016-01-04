@@ -1,4 +1,3 @@
-# config = require("./config.js")()
 nodemon = require "./nodemon.json"
 
 module.exports = (grunt) ->
@@ -15,24 +14,23 @@ module.exports = (grunt) ->
 				options:
 					filter: "include", 
 					tasks: [ 
-						"serve-dev",
-						"wiredep"
+						"serve-dev"
 					]
 					descriptions:
-						"serve-dev": "Boots up server and opens your default browser",
-						"wiredep": "Wire in bower dependencies"
+						"serve-dev": "Boots up server and opens your default browser"
 
 
 		# runs tasks concurrently				
 		concurrent:
 			dev: [
-				"nodemon:dev"
+				"nodemon:dev",
+				"watch"
 			]
 			options:
 				logConcurrentOutput: true
 
 
-		# boots up nodemon for us		
+		# boots up nodemon
 		nodemon:
 			dev:
 				scripts: "bin<%= path.sep %>www"
@@ -64,10 +62,81 @@ module.exports = (grunt) ->
 		# wire bower dependencies
 		wiredep:
 			tasks: 
+				directory: "bower_components"
 				src: [
 					"views<%= path.sep %>layout.jade"
 				]
+				cwd: './'
+				exclude: [
+					"bin/materialize.css"
+				]
+				ignorePath: /^(\.\.\/)/
 
+
+		# compile sass to css
+		sass:
+			dev:
+				options:  
+					compress: false 
+				files: [
+					"public<%= path.sep %>css<%= path.sep %>app.css" : "src<%= path.sep %>sass<%= path.sep %>materialize.scss",
+				]
+
+
+		# watches files and runs tasks when the files change
+		watch:
+			options:
+				livereload: true
+
+			sassfiles:
+				files: [
+					"src<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
+				]
+				tasks: ['sass:dev']
+				options:
+					spawn: false
+
+			# images:
+			# 	files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']
+			# 	tasks: ['clean:images', 'copy:images']
+			# 	#tasks: if config.env == 'dev' then ["clean:images", "copy:images"]
+			# 	options:
+			# 		spawn: false
+
+			# jadefiles:
+			# 	files: ["views<%= path.sep %>**<%= path.sep %>*.jade"]
+			# 	options:
+			# 		spawn: false
+
+			# jsfiles:
+			# 	files: [
+			# 		"routes<%= path.sep %>**<%= path.sep %>*.js",
+   #                  "config.js",
+   #                  "app-config.js"					
+			# 	]
+			# 	options:
+			# 		spawn: false
+
+			# jsassets:
+			# 	files: [
+			# 		"src<%= path.sep %>js<%= path.sep %>*.js", 
+			# 		"lib<%= path.sep %>**<%= path.sep %>*.js",
+			# 	]
+			# 	tasks: ['uglify:dev']
+			# 	options:
+			# 		spawn: false
+
+			# gruntfile:
+			# 	files: ["gruntfile.js"]
+			# 	tasks: ["jshint:gruntfile"]
+			# 	options:
+			# 		spawn: false
+
+			# mastercss:
+			# 	files: ["src<%= path.sep %>css<%= path.sep %>*.css"]
+			# 	tasks: ["cssmin:build"]
+			# 	options:
+			# 		spawn: false				
 
 
 		# # automagically prefix our css
@@ -208,61 +277,7 @@ module.exports = (grunt) ->
 		# 			"public<%= config.routes.writeAReview.css %>" : config.routes.writeAReview.styleAssets
 
 
-		# # watches files and runs tasks when the files change
-		# watch:
-		# 	options:
-		# 		livereload: true
 
-		# 	images:
-		# 		files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']
-		# 		tasks: ['clean:images', 'copy:images']
-		# 		#tasks: if config.env == 'dev' then ["clean:images", "copy:images"]
-		# 		options:
-		# 			spawn: false
-
-		# 	jadefiles:
-		# 		files: ["views<%= path.sep %>**<%= path.sep %>*.jade"]
-		# 		options:
-		# 			spawn: false
-
-		# 	jsfiles:
-		# 		files: [
-		# 			"routes<%= path.sep %>**<%= path.sep %>*.js",
-  #                   "config.js",
-  #                   "app-config.js"					
-		# 		]
-		# 		options:
-		# 			spawn: false
-
-		# 	jsassets:
-		# 		files: [
-		# 			"src<%= path.sep %>js<%= path.sep %>*.js", 
-		# 			"lib<%= path.sep %>**<%= path.sep %>*.js",
-		# 		]
-		# 		tasks: ['uglify:dev']
-		# 		options:
-		# 			spawn: false
-
-		# 	lessfiles:
-		# 		files: [
-		# 			"src<%= path.sep %>less<%= path.sep %>**<%= path.sep %>*.less",
-		# 			"src<%= path.sep %>less<%= path.sep %>**<%= path.sep %>*.css"
-		# 		]
-		# 		tasks: ['less:dev']
-		# 		options:
-		# 			spawn: false
-
-		# 	gruntfile:
-		# 		files: ["gruntfile.js"]
-		# 		tasks: ["jshint:gruntfile"]
-		# 		options:
-		# 			spawn: false
-
-		# 	mastercss:
-		# 		files: ["src<%= path.sep %>css<%= path.sep %>*.css"]
-		# 		tasks: ["cssmin:build"]
-		# 		options:
-		# 			spawn: false
 						
 
 		# # creates release branch
@@ -414,8 +429,7 @@ module.exports = (grunt) ->
 	# grunt.registerTask("dev", ["string-replace:dev", "less:dev", "uglify:dev", "concurrent:backend"])
 	# grunt.registerTask("vetcss", ["clean:tmp", "less:vet", "postcss:vet", "csslint:tmp"])
 	grunt.registerTask("default", ["availabletasks"])
-	grunt.registerTask("serve-dev", ["concurrent:dev"])
-	# grunt.registerTask("wiredep")
+	grunt.registerTask("serve-dev", ["wiredep", "sass:dev", "concurrent:dev"])
 	
 
 
