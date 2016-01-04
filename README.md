@@ -10,7 +10,7 @@
 ```$ npm start```
 
 ## Alternative Usage
-```$ grunt```
+```$ grunt serve-dev```
 
 ## Changelog
 - v0.0.1 (1/2/2016)
