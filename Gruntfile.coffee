@@ -96,6 +96,11 @@ module.exports = (grunt) ->
 				options:
 					spawn: false
 
+			jadefiles:
+				files: ["views<%= path.sep %>**<%= path.sep %>*.jade"]
+				options:
+					spawn: false					
+
 			# images:
 			# 	files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']
 			# 	tasks: ['clean:images', 'copy:images']
@@ -103,10 +108,7 @@ module.exports = (grunt) ->
 			# 	options:
 			# 		spawn: false
 
-			# jadefiles:
-			# 	files: ["views<%= path.sep %>**<%= path.sep %>*.jade"]
-			# 	options:
-			# 		spawn: false
+
 
 			# jsfiles:
 			# 	files: [
