@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="myApp")
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
@@ -20,5 +20,8 @@ html
     // bower:js
     script(src='bower_components/jquery/dist/jquery.js')
     script(src='bower_components/Materialize/bin/materialize.js')
+    script(src='bower_components/angular/angular.js')
+    script(src='bower_components/angular-route/angular-route.js')
     // endbower  
+
     script(src="//localhost:35729/livereload.js")
