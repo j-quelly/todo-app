@@ -18,7 +18,7 @@ var express = require('express'),
     // our express app
     app = express(),
 
-    // require our user model
+    // require our user schema/model
     User = require('./models/user.js');
 
 // require mongolab database connection
@@ -44,7 +44,7 @@ app.use(cookieParser());
 
 // for session managment
 app.use(require('express-session')({
-    secret: 'flyinh spaghetti monster',
+    secret: 'flying spaghetti monster',
     resave: false,
     saveUninitialized: false
 }));
@@ -53,13 +53,13 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// path to app assetts 
-app.use(express.static(path.join(__dirname, 'public')));
-
 // configure passport
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// path to app assetts 
+app.use(express.static(path.join(__dirname, 'public')));
 
 // allows the server to serve up injected bower dependencies
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
@@ -67,6 +67,7 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // application routes
 app.use('/', require('./routes/index.js'));
 app.use('/user/', require('./routes/api.js'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
