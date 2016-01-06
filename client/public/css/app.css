@@ -8539,7 +8539,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   margin: 60px 0 0 0; }
   #login h1, #login h2 {
     color: #555; }
-  #login .fa {
+  #login .material-icons {
     color: #E1E1E1; }
   #login .btn-large {
     margin: 30px 0 0 0;

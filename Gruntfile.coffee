@@ -1,11 +1,7 @@
-nodemon = require "./nodemon.json"
-
 module.exports = (grunt) ->
 	grunt.initConfig
 		pkg: grunt.file.readJSON("package.json") 
 		path: require "path"
-		# config: require("./config.js")()
-		version: "<%= pkg.version %>"
 
 
 		# list our available tasks
@@ -33,15 +29,21 @@ module.exports = (grunt) ->
 		# boots up nodemon
 		nodemon:
 			dev:
-				scripts: "bin<%= path.sep %>www"
+				scripts: "server<%= path.sep %>bin<%= path.sep %>www"
 				options:
-					env: nodemon.env
-					watch: [
-						# "src",
-						"lib",
-                        "routes"
-					] 
-					ignore: nodemon.ignore
+					env: { 
+						"NODE_ENV": "dev" 
+					}
+					# watch: [
+					# 	"server",
+					# 	"client"
+					# ] 
+					# ignore: [
+					# 	"client/public/*", 
+					# 	".git/*", 
+					# 	"*.jade", 
+					# 	"node_modules/*"
+					# ],					
 					delay: 300
 					callback: (nodemon) ->
 
@@ -64,13 +66,13 @@ module.exports = (grunt) ->
 			tasks: 
 				directory: "bower_components"
 				src: [
-					"views<%= path.sep %>layout.jade"
+					"client<%= path.sep %>views<%= path.sep %>layout.jade"
 				]
 				cwd: './'
 				exclude: [
 					"bin/materialize.css"
 				]
-				ignorePath: /^(\.\.\/)/
+				ignorePath: /^(\.\.\/\.\.\/)/
 
 
 		# compile sass to css
@@ -79,8 +81,31 @@ module.exports = (grunt) ->
 				options:  
 					compress: false 
 				files: [
-					"public<%= path.sep %>css<%= path.sep %>app.css" : "src<%= path.sep %>sass<%= path.sep %>materialize.scss",
+					"client<%= path.sep %>public<%= path.sep %>css<%= path.sep %>app.css" : "client<%= path.sep %>sass<%= path.sep %>materialize.scss",
 				]
+
+
+		# # compress our javascript			
+		# uglify:
+		# 	dev:
+		# 		options:
+		# 			beautify: true
+		# 		files:
+		# 			"public" : ["src<%= path.sep %>**<%= path.sep %>*.js"]
+
+			# build:
+			# 	options:
+			# 		beautify: false
+			# 	files:
+			# 		"public<%= path.sep %>js<%= path.sep %>app.min.js" : [
+			# 			'public' + '<%= path.sep %>js<%= path.sep %>*.js'
+			# 			'!public' + '<%= path.sep %>js<%= path.sep %>app.min.js'
+			# 			'!public' + '<%= path.sep %>js<%= path.sep %>lib.js'
+			# 			'!public' + '<%= path.sep %>js<%= path.sep %>lib.min.js'
+			# 			#'!public' + '<%= path.sep %>js<%= path.sep %>app-my-bench.js'
+						
+			# 		],					
+			# 		"public<%= path.sep %>js<%= path.sep %>lib.min.js" : 'public' + '<%= path.sep %>js<%= path.sep %>lib.js'
 
 
 		# watches files and runs tasks when the files change
@@ -90,11 +115,28 @@ module.exports = (grunt) ->
 
 			sassfiles:
 				files: [
-					"src<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
+					"client<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
 				]
 				tasks: ['sass:dev']
 				options:
 					spawn: false
+
+			jadefiles:
+				files: [
+					"client<%= path.sep %>views<%= path.sep %>**<%= path.sep %>*.jade"
+				]
+				options:
+					spawn: false
+
+			# jsfiles:
+			# 	files: [
+			# 		"src<%= path.sep %>**<%= path.sep %>*.js"
+			# 	]					
+			# 	tasks: [
+			# 		'uglify:dev'
+			# 	]
+			# 	options:
+			# 		spawn: false
 
 			# images:
 			# 	files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']
@@ -103,16 +145,11 @@ module.exports = (grunt) ->
 			# 	options:
 			# 		spawn: false
 
-			# jadefiles:
-			# 	files: ["views<%= path.sep %>**<%= path.sep %>*.jade"]
-			# 	options:
-			# 		spawn: false
-
 			# jsfiles:
 			# 	files: [
 			# 		"routes<%= path.sep %>**<%= path.sep %>*.js",
-   #                  "config.js",
-   #                  "app-config.js"					
+   			#                  "config.js",
+   			#                  "app-config.js"					
 			# 	]
 			# 	options:
 			# 		spawn: false
@@ -123,12 +160,6 @@ module.exports = (grunt) ->
 			# 		"lib<%= path.sep %>**<%= path.sep %>*.js",
 			# 	]
 			# 	tasks: ['uglify:dev']
-			# 	options:
-			# 		spawn: false
-
-			# gruntfile:
-			# 	files: ["gruntfile.js"]
-			# 	tasks: ["jshint:gruntfile"]
 			# 	options:
 			# 		spawn: false
 
@@ -323,54 +354,6 @@ module.exports = (grunt) ->
 		# 	server:
 		# 		options:
 		# 			file: "server.js"
-
-
-		# # compress our javascript			
-		# uglify:
-		# 	dev:
-		# 		options:
-		# 			beautify: true
-		# 		files:
-		# 			"public<%= config.globalJs[2] %>" : config.jsLibs,
-		# 			"public<%= config.globalJs[3] %>" : config.appJs,					
-		# 			"public<%= config.routes.advertising.js %>" : config.routes.advertising.jsAssets,
-		# 			"public<%= config.routes.askAQuestion.js %>" : config.routes.askAQuestion.jsAssets,
-		# 			"public<%= config.routes.categories.js %>" : config.routes.categories.jsAssets,
-		# 			"public<%= config.routes.equipmentList.js %>" : config.routes.equipmentList.jsAssets,
-		# 			"public<%= config.routes.equipmentResults.js %>" : config.routes.equipmentResults.jsAssets,
-		# 			"public<%= config.routes.equipment.js %>" : config.routes.equipment.jsAssets,
-		# 			"public<%= config.routes.index.js %>" : config.routes.index.jsAssets,
-		# 			"public<%= config.routes.inquirySubmitted.js %>" : config.routes.inquirySubmitted.jsAssets,
-		# 			"public<%= config.routes.manufacturer.js %>" : config.routes.manufacturer.jsAssets,
-		# 			"public<%= config.routes.manufacturers.js %>" : config.routes.manufacturers.jsAssets,
-		# 			"public<%= config.routes.myCommunityFeed.js %>" : config.routes.myCommunityFeed.jsAssets,
-		# 			"public<%= config.routes.myDiscussions.js %>" : config.routes.myDiscussions.jsAssets,
-		# 			"public<%= config.routes.myItems.js %>" : config.routes.myItems.jsAssets,
-		# 			"public<%= config.routes.pressReleases.js %>" : config.routes.pressReleases.jsAssets,
-		# 			"public<%= config.routes.privacyPolicy.js %>" : config.routes.privacyPolicy.jsAssets,
-		# 			"public<%= config.routes.questionsAndAnswers.js %>" : config.routes.questionsAndAnswers.jsAssets,
-		# 			"public<%= config.routes.register.js %>" : config.routes.register.jsAssets					
-		# 			"public<%= config.routes.requestAQuote.js %>" : config.routes.requestAQuote.jsAssets,
-		# 			"public<%= config.routes.signIn.js %>" : config.routes.signIn.jsAssets,
-		# 			"public<%= config.routes.signOut.js %>" : config.routes.signOut.jsAssets,
-		# 			"public<%= config.routes.termsAndConditions.js %>" : config.routes.termsAndConditions.jsAssets,
-		# 			"public<%= config.routes.thread.js %>" : config.routes.thread.jsAssets,
-		# 			"public<%= config.routes.welcome.js %>" : config.routes.welcome.jsAssets,
-		# 			"public<%= config.routes.writeAReview.js %>" : config.routes.writeAReview.jsAssets
-
-		# 	build:
-		# 		options:
-		# 			beautify: false
-		# 		files:
-		# 			"public<%= path.sep %>js<%= path.sep %>app.min.js" : [
-		# 				'public' + '<%= path.sep %>js<%= path.sep %>*.js'
-		# 				'!public' + '<%= path.sep %>js<%= path.sep %>app.min.js'
-		# 				'!public' + '<%= path.sep %>js<%= path.sep %>lib.js'
-		# 				'!public' + '<%= path.sep %>js<%= path.sep %>lib.min.js'
-		# 				#'!public' + '<%= path.sep %>js<%= path.sep %>app-my-bench.js'
-						
-		# 			],					
-		# 			"public<%= path.sep %>js<%= path.sep %>lib.min.js" : 'public' + '<%= path.sep %>js<%= path.sep %>lib.js'
 
 
 		# # is this being used
