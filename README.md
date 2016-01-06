@@ -22,3 +22,4 @@
 	- adds angular route to bower dependencies
 	- adds passport for authentication
 	- adds API for user
+	- cleans up application structure to follow techniques learned from John Papa
