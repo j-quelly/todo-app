@@ -11,7 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
 
     // for user authentication
-    hash = require('bcrypt-nodejs'),
+    // hash = require('bcrypt-nodejs'),
     passport = require('passport'),
     localStrategy = require('passport-local').Strategy,
 

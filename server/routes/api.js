@@ -7,7 +7,7 @@ var express = require('express'),
     // passport package for auth
     passport = require('passport'),
 
-    /* require our users model */
+    /* require our user model */
     User = require('../models/user.js');
 
 

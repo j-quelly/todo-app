@@ -115,7 +115,7 @@ module.exports = (grunt) ->
 
 			sassfiles:
 				files: [
-					"src<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
+					"client<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
 				]
 				tasks: ['sass:dev']
 				options:
@@ -123,7 +123,7 @@ module.exports = (grunt) ->
 
 			jadefiles:
 				files: [
-					"views<%= path.sep %>**<%= path.sep %>*.jade"
+					"client<%= path.sep %>views<%= path.sep %>**<%= path.sep %>*.jade"
 				]
 				options:
 					spawn: false
