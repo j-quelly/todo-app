@@ -15,11 +15,11 @@
 ```$ grunt serve-dev```
 
 ## Changelog
-- v0.0.1 (1/2/2016)
-	- initial commit	
 - v0.0.2 (1/5/2016)
 	- adds angular to bower dependencies
 	- adds angular route to bower dependencies
 	- adds passport for authentication
 	- adds API for user
 	- cleans up application structure to follow techniques learned from John Papa
+- v0.0.1 (1/2/2016)
+	- initial commit	

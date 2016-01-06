@@ -1,11 +1,7 @@
-nodemon = require "./nodemon.json"
-
 module.exports = (grunt) ->
 	grunt.initConfig
 		pkg: grunt.file.readJSON("package.json") 
 		path: require "path"
-		# config: require("./config.js")()
-		version: "<%= pkg.version %>"
 
 
 		# list our available tasks
@@ -33,15 +29,21 @@ module.exports = (grunt) ->
 		# boots up nodemon
 		nodemon:
 			dev:
-				scripts: "bin<%= path.sep %>www"
+				scripts: "server<%= path.sep %>bin<%= path.sep %>www"
 				options:
-					env: nodemon.env
-					watch: [
-						"src",
-						"lib",
-                        "routes"
-					] 
-					ignore: nodemon.ignore
+					env: { 
+						"NODE_ENV": "dev" 
+					}
+					# watch: [
+					# 	"server",
+					# 	"client"
+					# ] 
+					# ignore: [
+					# 	"client/public/*", 
+					# 	".git/*", 
+					# 	"*.jade", 
+					# 	"node_modules/*"
+					# ],					
 					delay: 300
 					callback: (nodemon) ->
 
@@ -64,13 +66,13 @@ module.exports = (grunt) ->
 			tasks: 
 				directory: "bower_components"
 				src: [
-					"views<%= path.sep %>layout.jade"
+					"client<%= path.sep %>views<%= path.sep %>layout.jade"
 				]
 				cwd: './'
 				exclude: [
 					"bin/materialize.css"
 				]
-				ignorePath: /^(\.\.\/)/
+				ignorePath: /^(\.\.\/\.\.\/)/
 
 
 		# compile sass to css
@@ -79,17 +81,17 @@ module.exports = (grunt) ->
 				options:  
 					compress: false 
 				files: [
-					"public<%= path.sep %>css<%= path.sep %>app.css" : "src<%= path.sep %>sass<%= path.sep %>materialize.scss",
+					"client<%= path.sep %>public<%= path.sep %>css<%= path.sep %>app.css" : "client<%= path.sep %>sass<%= path.sep %>materialize.scss",
 				]
 
 
-		# compress our javascript			
-		uglify:
-			dev:
-				options:
-					beautify: true
-				files:
-					"public" : ["src<%= path.sep %>**<%= path.sep %>*.js"]
+		# # compress our javascript			
+		# uglify:
+		# 	dev:
+		# 		options:
+		# 			beautify: true
+		# 		files:
+		# 			"public" : ["src<%= path.sep %>**<%= path.sep %>*.js"]
 
 			# build:
 			# 	options:
@@ -126,15 +128,15 @@ module.exports = (grunt) ->
 				options:
 					spawn: false
 
-			jsfiles:
-				files: [
-					"src<%= path.sep %>**<%= path.sep %>*.js"
-				]					
-				tasks: [
-					'uglify:dev'
-				]
-				options:
-					spawn: false
+			# jsfiles:
+			# 	files: [
+			# 		"src<%= path.sep %>**<%= path.sep %>*.js"
+			# 	]					
+			# 	tasks: [
+			# 		'uglify:dev'
+			# 	]
+			# 	options:
+			# 		spawn: false
 
 			# images:
 			# 	files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']

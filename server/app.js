@@ -25,7 +25,7 @@ var express = require('express'),
 require('./lib/connection');
 
 // tell the application to use JADE as its templating engine when using .render
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../client/views'));
 app.set('view engine', 'jade');
 
 
@@ -59,10 +59,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // path to app assetts 
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static('./client/public'));
 // allows the server to serve up injected bower dependencies
-app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use(express.static('./'));
 
 // application routes
 app.use('/', require('./routes/index.js'));

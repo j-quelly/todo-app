@@ -4,7 +4,7 @@
   "description": "MEAN stack app",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./server/bin/www"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
