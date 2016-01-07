@@ -1,12 +1,12 @@
 # todo-app
 - MEAN stack app
 
-### Current Version: 0.0.2
+### Current Version: 0.0.3
 
 ## Getting Started
 1. ```$ bower install```
 2. ```$ npm install```
-3. ```$ grunt serve-dev```
+3. ```$ npm start```
 
 ## Default Usage
 ```$ npm start```
@@ -15,6 +15,8 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v0.0.3 (1/6/2016)
+	- restructured the app
 - v0.0.2 (1/5/2016)
 	- adds angular to bower dependencies
 	- adds angular route to bower dependencies

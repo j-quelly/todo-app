@@ -29,7 +29,7 @@ module.exports = (grunt) ->
 		# boots up nodemon
 		nodemon:
 			dev:
-				scripts: "server<%= path.sep %>bin<%= path.sep %>www"
+				scripts: "bin<%= path.sep %>www"
 				options:
 					env: { 
 						"NODE_ENV": "dev" 
@@ -66,7 +66,7 @@ module.exports = (grunt) ->
 			tasks: 
 				directory: "bower_components"
 				src: [
-					"client<%= path.sep %>views<%= path.sep %>layout.jade"
+					"views<%= path.sep %>layout.jade"
 				]
 				cwd: './'
 				exclude: [
@@ -81,7 +81,7 @@ module.exports = (grunt) ->
 				options:  
 					compress: false 
 				files: [
-					"client<%= path.sep %>public<%= path.sep %>css<%= path.sep %>app.css" : "client<%= path.sep %>sass<%= path.sep %>materialize.scss",
+					"public<%= path.sep %>css<%= path.sep %>app.css" : "sass<%= path.sep %>materialize.scss",
 				]
 
 
@@ -115,7 +115,7 @@ module.exports = (grunt) ->
 
 			sassfiles:
 				files: [
-					"client<%= path.sep %>sass<%= path.sep %>**<%= path.sep %>*.scss"
+					"sass<%= path.sep %>**<%= path.sep %>*.scss"
 				]
 				tasks: ['sass:dev']
 				options:
@@ -123,7 +123,7 @@ module.exports = (grunt) ->
 
 			jadefiles:
 				files: [
-					"client<%= path.sep %>views<%= path.sep %>**<%= path.sep %>*.jade"
+					"views<%= path.sep %>**<%= path.sep %>*.jade"
 				]
 				options:
 					spawn: false

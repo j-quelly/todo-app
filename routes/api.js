@@ -1,14 +1,7 @@
-/* 
- * a very simple API 
- */
 var express = require('express'),
     router = express.Router(),
-
-    // passport package for auth
-    passport = require('passport'),
-
-    /* require our user model */
-    User = require('../models/user.js');
+    passport = require('passport');
+User = require('../models/user.js');
 
 
 router.post('/register', function(req, res) {

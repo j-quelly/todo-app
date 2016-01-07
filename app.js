@@ -1,37 +1,29 @@
-/*
- * express app for PLAR
- */
+/* dependencies */
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-// express app dependencies
-var express = require('express'),
-    path = require('path'),
-    favicon = require('serve-favicon'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
+// require database connection once
+require('./lib/connection'); 
 
-    // for user authentication
-    // hash = require('bcrypt-nodejs'),
-    passport = require('passport'),
-    localStrategy = require('passport-local').Strategy,
+// for authentication
+var passport = require('passport'),
+    localStrategy = require('passport-local' ).Strategy;
 
-    // our express app
-    app = express(),
+// user schema/model
+var User = require('./models/user.js');
 
-    // require our user schema
-    User = require('./models/user.js');
+// var routes = require('./routes/index');
+var api = require('./routes/api.js');
 
-// require mongolab database connection
-require('./lib/connection');
+var app = express();
 
-// tell the application to use JADE as its templating engine when using .render
-// app.set('views', path.join(__dirname, '../client/views'));
-// app.set('view engine', 'jade');
-
-
-/*
- * define our middlewares 
- */
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -41,31 +33,33 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-
-// for session managment
 app.use(require('express-session')({
-    secret: 'flying spaghetti monster',
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
 }));
-
-// passport auth middleware
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 // configure passport
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// path to app assetts 
-app.use(express.static('./client/public'));
-// allows the server to serve up injected bower dependencies
-app.use(express.static('./'));
+// app.use('/', routes);
+app.get('/', function(req, res, next) {
+    res.render('index');
+});
 
-// application routes
-app.use('/', require('./routes/index.js'));
-app.use('/user/', require('./routes/api.js'));
+app.use('/user/', api);
+
+app.get('/partial/:name', function(req, res) {
+    var name = req.params.name;
+    res.render('partials/' + name);
+});
+
 
 
 // catch 404 and forward to error handler
@@ -75,10 +69,8 @@ app.use(function(req, res, next) {
     next(err);
 });
 
+// error handlers
 
-/*
- * error handling
- */
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
