@@ -18,15 +18,15 @@ var express = require('express'),
     // our express app
     app = express(),
 
-    // require our user schema/model
+    // require our user schema
     User = require('./models/user.js');
 
 // require mongolab database connection
 require('./lib/connection');
 
 // tell the application to use JADE as its templating engine when using .render
-app.set('views', path.join(__dirname, '../client/views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, '../client/views'));
+// app.set('view engine', 'jade');
 
 
 /*
