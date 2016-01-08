@@ -35,8 +35,7 @@ module.exports = (grunt) ->
 						"NODE_ENV": "dev" 
 					}
 					# watch: [
-					# 	"server",
-					# 	"client"
+					# 	"public"						
 					# ] 
 					# ignore: [
 					# 	"client/public/*", 
@@ -128,15 +127,15 @@ module.exports = (grunt) ->
 				options:
 					spawn: false
 
-			# jsfiles:
-			# 	files: [
-			# 		"src<%= path.sep %>**<%= path.sep %>*.js"
-			# 	]					
-			# 	tasks: [
-			# 		'uglify:dev'
-			# 	]
-			# 	options:
-			# 		spawn: false
+			jsfiles:
+				files: [
+					"public<%= path.sep %>js<%= path.sep %>**<%= path.sep %>*.js"
+				]					
+				# tasks: [
+				# 	'uglify:dev'
+				# ]
+				options:
+					spawn: false
 
 			# images:
 			# 	files: ['src<%= path.sep %>images<%= path.sep %>**<%= path.sep %>*.*']
