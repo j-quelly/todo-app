@@ -1,7 +1,7 @@
 # todo-app
-- MEAN stack app
+- MEAN stack app for PLAR
 
-### Current Version: 0.0.3
+### Current Version: 0.0.4
 
 ## Getting Started
 1. ```$ bower install```
@@ -15,6 +15,10 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v0.0.4 (1/7/2016)
+	- aesthetic changes
+	- adds comments
+	- looking into ways to prevent FOUC
 - v0.0.3 (1/6/2016)
 	- restructured the app
 - v0.0.2 (1/5/2016)
