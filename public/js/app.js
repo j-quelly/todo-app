@@ -1,31 +1,33 @@
+/*
+ * Angularjs app
+ */
+
+/* create our app and require the ngRoute module */
 var myApp = angular.module('myApp', ['ngRoute']);
 
+/* configure our app routes */
 myApp.config(function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'partial/home'
+            templateUrl: 'partial/home',
+            controller: 'AppCtrl'
         })
         .when('/login', {
             templateUrl: 'partial/login',
-            controller: 'loginController',
-            restricted: false
+            controller: 'LoginCtrl'
         })
         .when('/logout', {
-            controller: 'logoutController',
-            restricted: true
+            controller: 'LogoutCtrl'
         })
         .when('/register', {
             templateUrl: 'partial/register',
-            controller: 'registerController',
-            restricted: false
+            controller: 'registerController'
         })
         .when('/one', {
-            template: 'This is page one!',
-            restricted: false
+            template: 'This is page one!'
         })
         .when('/two', {
-            template: 'This is page two!',
-            restricted: true
+            template: 'This is page two!'
         })
         .otherwise({
             redirectTo: '/'
@@ -33,9 +35,15 @@ myApp.config(function($routeProvider) {
 });
 
 myApp.run(function($rootScope, $location, $route, AuthService) {
-    // $rootScope.$on('$routeChangeStart', function(event, next, current) {
-    //     if (AuthService.isLoggedIn() === false) {
-    //         $location.path('/login');
-    //     }
-    // });
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        var currentPage = $location.$$url;
+
+        // restrict all pages except registration
+        if (AuthService.isLoggedIn() === false) {
+            if (currentPage !== '/register') {
+                $location.path('/login');
+            }
+        }
+
+    });
 });
