@@ -1,3 +1,10 @@
-h1 Yo!
-div(ng-controller='logoutController')
-	a.btn.btn-default(ng-click='logout()') Logout
+header(ng-show="appState == 'loggedIn'")
+	.container
+		a.button-collapse.top-nav.hide-on-large-only.right(href='#', data-activates='nav-mobile')
+			i.mdi-navigation-menu
+		ul#nav-mobile.side-nav.fixed
+			li.center
+				i.large.material-icons 
+					| account_circle
+			li(ng-controller="LogoutCtrl")
+				a(ng-click='logout()') Logout	

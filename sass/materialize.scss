@@ -1,16 +1,12 @@
 @charset "UTF-8";
-
 // Mixins
 // @import "components/prefixer";
 @import "components/mixins";
 @import "components/color";
-
 // Variables;
 @import "components/variables";
-
 // Reset
 @import "components/normalize";
-
 // components
 @import "components/global";
 @import "components/icons-material-design";
@@ -40,32 +36,53 @@
 @import "components/date_picker/default.time.scss";
 
 /* custom helpers */
-.no-margin-bottom {
-	margin-bottom: 0;
+
+.no-js {
+    display: none;
 }
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
 
 /* .col {
 	background: #ccc;
 } */
 
 .clear {
-	clear: both;
+    clear: both;
 }
 
-/* login */  
-#login { 
-	margin: 60px 0 0 0; 
+.error {
+    background-color: $error-color;
+    color: #fff;
+}
 
-	h1, h2 {
-		color: #555;
-	}
 
-	.material-icons {
-		color: #E1E1E1;
-	}
+/* structure */
 
-	.btn-large {
-		margin: 30px 0 0 0;
-		width: 100%;
-	}
+html {
+    height: 100%;
+    background: url('../images/bg.jpg');
+    background-position: center center;
+}
+
+
+/* login */
+
+#login {
+    margin: 60px 0 0 0;
+    h1 {
+        font-size: 42px;
+        color: #555;
+        text-transform: uppercase;
+    }
+    .material-icons {
+        color: #E1E1E1;
+    }
+    .btn-large {
+        margin: 30px 0 0 0;
+        width: 100%;
+    }
 }
