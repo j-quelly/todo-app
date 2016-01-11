@@ -1,4 +1,4 @@
-.row#login
+.row#login(td-toasts)
 	.col.s12.center
 		h1 Two.deux
 		p Sign in to begin
@@ -19,17 +19,11 @@
 						label(for='password') Password
 
 					.col.s12
-						input.blue(type="checkbox")
+						input.blue(type="checkbox", id="remember-me")
 						label(for="remember-me") Remember me
 
 					.col.s12
-						input.btn-large.blue(ng-disabled="disabled", type="submit", value="Log In")
-						//- button.btn-large.blue(ng-disabled="disabled") Log In
+						input.btn-large.blue(ng-disabled="!loginForm.username || !loginForm.password", type="submit", value="Log In")
 
-				.col.s12.right-align
-					p
-						a(href="#") Forgot password?
 		.center
 			a(href="#/register") Create account 
-
-div(td-toasts)

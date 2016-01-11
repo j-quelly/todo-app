@@ -1,7 +1,7 @@
 extends layout
 
 block content 
-	header(ng-show="appState == 'loggedIn'")
+	header
 		.container
 			a.button-collapse.top-nav.hide-on-large-only.right(href='#', data-activates='nav-mobile')
 				i.mdi-navigation-menu
@@ -9,30 +9,17 @@ block content
 				li.center
 					i.large.material-icons 
 						| account_circle
-				li#thumbs
+				li(ng-controller="LogoutCtrl")
+					a(ng-click='logout()') Logout	
+					a {{ appState }}
 
-	.container
+
+	main.container
 		div(ng-view)
 
 
-	//- footer.page-footer
-	//- 	.container
-	//- 		.row
-	//- 			.col.l6.s12
-	//- 				h5.white-text Footer Content
-	//- 				p.grey-text.text-lighten-4 You can use rows and columns here to organize your footer content.
-	//- 			.col.l4.offset-l2.s12
-	//- 				h5.white-text Links
-	//- 				ul
-	//- 				li
-	//- 					a.grey-text.text-lighten-3(href='#!') Link 1
-	//- 				li
-	//- 					a.grey-text.text-lighten-3(href='#!') Link 2
-	//- 				li
-	//- 					a.grey-text.text-lighten-3(href='#!') Link 3
-	//- 				li
-	//- 					a.grey-text.text-lighten-3(href='#!') Link 4
-	//- 	.footer-copyright
-	//- 		.container
-	//- 			| © 2014 Copyright Text
-	//- 			a.grey-text.text-lighten-4.right(href='#!') More Links
+	footer.page-footer
+		.footer-copyright
+			.container
+				| © 2014 Copyright Text
+				a.grey-text.text-lighten-4.right(href='#!') More Links

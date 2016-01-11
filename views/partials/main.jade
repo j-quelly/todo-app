@@ -1,0 +1,21 @@
+.row(ng-controller="TodoListController as todoList")
+	.col.s12.center
+		h1 Two.deux
+		p lorem
+
+	.col.l6.offset-l3.m8.offset-m2.s12
+		.card-panel.grey.lighten-4
+			span {{todoList.remaining()}} of {{todoList.todos.length}} remaining 
+			| [
+			a(href="", ng-click="todoList.archive()") archive
+			| ]
+			ul.collection(ng-repeat="todo in todoList.todos")
+				li.collection-item.dismissable
+					input.blue(type="checkbox", id="test{{$index}}", ng-model="todo.done")
+					label(for="test{{$index}}", class="done-{{todo.done}}") {{todo.text}}
+
+
+	.col.l6.offset-l3.m8.offset-m2.s12
+		form(ng-submit="todoList.addTodo()", action="")
+			input(type="text", ng-model="todoList.todoText", size="30", placeholder="add new todo here")
+			input.btn.blue(type="submit", value="add")			

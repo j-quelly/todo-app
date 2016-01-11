@@ -1,9 +1,12 @@
 var express = require('express'),
     router = express.Router(),
-    passport = require('passport');
+    passport = require('passport'),
+    colors = require('colors');
+
+
 User = require('../models/user.js');
 
-// 
+
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) {
@@ -22,6 +25,10 @@ router.post('/login', function(req, res, next) {
                     err: 'Could not log in user'
                 });
             }
+
+            // store a cookie or session var?
+            // console.log(req.user);
+
             res.status(200).json({
                 status: 'Login successful!'
             });
@@ -54,6 +61,10 @@ router.get('/logout', function(req, res) {
     res.status(200).json({
         status: 'Bye!'
     });
+});
+
+router.get('/get-login', function(req, res) {
+    res.send(req.user);
 });
 
 module.exports = router;

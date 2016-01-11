@@ -1,49 +1,39 @@
-angular.module('myApp').controller('AppCtrl', ['$scope', '$location',
-    function($scope, $location) {
-        $scope.appState = 'loggedIn';
-        console.log($scope.hello);
-    }
-]);
+/*
+ * app controllers for pushing data to the DOM
+ */
 
+/* login controller */
 angular.module('myApp').controller('LoginCtrl', ['$scope', '$location', 'AuthService',
 
     function($scope, $location, AuthService) {
 
-        // console.log(AuthService.getUserStatus());
-        $scope.myValue = true;
+        console.log('user status:' + AuthService.getUserStatus());
+
+        $scope.loginForm = {};
 
         $scope.login = function() {
 
+            /* reset the error object */
+            $scope.error = false;
+            // $scope.disabled = true;
 
-            if ($scope.loginForm === undefined) {
+            // call login from service
+            AuthService.login($scope.loginForm.username, $scope.loginForm.password)
+                // handle success
+                .then(function() {
+                    $location.path('/');
+                    // $scope.disabled = false;
+                    // $scope.loginForm = {};
+                })
+                // handle error
+                .catch(function() {
+                    $scope.error = true;
+                    $scope.errorMessage = "Invalid username or password, please try again";
+                    // $scope.disabled = false;
+                    // $scope.loginForm = {};
+                });
 
-                // return an error when the user trys to submit the form without entering credentials
-                $scope.error = true;
-                $scope.errorMessage = "Invalid username or password, please try again";
-
-            } else {
-
-                // no error
-                $scope.error = false;
-                $scope.disabled = true;
-
-                // call login from service
-                AuthService.login($scope.loginForm.username, $scope.loginForm.password)
-                    // handle success
-                    .then(function() {
-                        $location.path('/');
-                        $scope.disabled = false;
-                        $scope.loginForm = {};
-                    })
-                    // handle error
-                    .catch(function() {
-                        $scope.error = true;
-                        $scope.errorMessage = "Invalid username or password, please try again";
-                        $scope.disabled = false;
-                        $scope.loginForm = {};
-                    });
-            }
-
+            // console.log($scope.loginForm);
 
         };
 
@@ -56,7 +46,7 @@ angular.module('myApp').controller('LogoutCtrl', ['$scope', '$location', 'AuthSe
 
         $scope.logout = function() {
 
-            console.log(AuthService.getUserStatus());
+            console.log('user status:' + AuthService.getUserStatus());
 
             // call logout from service
             AuthService.logout()
@@ -70,10 +60,10 @@ angular.module('myApp').controller('LogoutCtrl', ['$scope', '$location', 'AuthSe
 ]);
 
 
-angular.module('myApp').controller('registerController', ['$scope', '$location', 'AuthService',
+angular.module('myApp').controller('RegisterCtrl', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
-        console.log(AuthService.getUserStatus());
+        console.log('user status:' + AuthService.getUserStatus());
 
         $scope.register = function() {
 
@@ -101,3 +91,43 @@ angular.module('myApp').controller('registerController', ['$scope', '$location',
 
     }
 ]);
+
+
+/**
+ * To do list controller
+ *
+ */
+angular.module('myApp').controller('TodoListController', function() {
+    var todoList = this;
+    todoList.todos = [{
+        text: 'learn angular',
+        done: true
+    }, {
+        text: 'build an angular app',
+        done: false
+    }];
+
+    todoList.addTodo = function() {
+        todoList.todos.push({
+            text: todoList.todoText,
+            done: false
+        });
+        todoList.todoText = '';
+    };
+
+    todoList.remaining = function() {
+        var count = 0;
+        angular.forEach(todoList.todos, function(todo) {
+            count += todo.done ? 0 : 1;
+        });
+        return count;
+    };
+
+    todoList.archive = function() {
+        var oldTodos = todoList.todos;
+        todoList.todos = [];
+        angular.forEach(oldTodos, function(todo) {
+            if (!todo.done) todoList.todos.push(todo);
+        });
+    };
+});

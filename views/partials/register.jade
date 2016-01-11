@@ -1,14 +1,37 @@
-h1 HAYYYYY REGISTARRR
-.col-md-4
-  h1
-    | Register
-    .alert.alert-danger(ng-show='error') {{errorMessage}}
-    form.form(ng-submit='register()')
-      .form-group
-        label Username
-        input.form-control(type='text', name='username', ng-model='registerForm.username', required='')
-      .form-group
-        label Password
-        input.form-control(type='password', name='password', ng-model='registerForm.password', required='')
-      div
-        button.btn.btn-default(type='submit', ng-disabled='disabled') Register
+.row#login
+  .col.s12.center
+    h1 Two.deux
+    p Sign up
+
+  .col.l4.offset-l4.m6.offset-m3 
+    .card-panel.grey.lighten-4
+      .row.no-margin-bottom
+        .center
+          i.large.material-icons 
+            | account_circle
+        form.form(ng-submit="register()", action="")
+          .input-field.col.s12
+            input.validate(type='email', ng-model="loginForm.username")
+            label(for='username') Username
+
+          .input-field.col.s12
+            input.validate(type='password', ng-model="loginForm.password")
+            label(for='password') Password
+
+          .col.s12
+            input.btn-large.blue(ng-disabled="disabled", type="submit", value="Register") 
+
+
+//- .col-md-4
+//-   h1
+//-     | Register
+//-     .alert.alert-danger(ng-show='error') {{errorMessage}}
+//-     form.form(ng-submit='register()')
+//-       .form-group
+//-         label Username
+//-         input.form-control(type='text', name='username', ng-model='registerForm.username', required='')
+//-       .form-group
+//-         label Password
+//-         input.form-control(type='password', name='password', ng-model='registerForm.password', required='')
+//-       div
+//-         button.btn.btn-default(type='submit', ng-disabled='disabled') Register
