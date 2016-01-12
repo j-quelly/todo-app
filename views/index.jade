@@ -1,25 +1,5 @@
 extends layout
 
 block content 
-	header
-		.container
-			a.button-collapse.top-nav.hide-on-large-only.right(href='#', data-activates='nav-mobile')
-				i.mdi-navigation-menu
-			ul#nav-mobile.side-nav.fixed
-				li.center
-					i.large.material-icons 
-						| account_circle
-				li(ng-controller="LogoutCtrl")
-					a(ng-click='logout()') Logout	
-					a {{ appState }}
-
-
 	main.container
 		div(ng-view)
-
-
-	footer.page-footer
-		.footer-copyright
-			.container
-				| © 2014 Copyright Text
-				a.grey-text.text-lighten-4.right(href='#!') More Links

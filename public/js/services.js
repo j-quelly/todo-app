@@ -1,17 +1,85 @@
-angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http',
-    function($q, $timeout, $http) {
+/*
+ * services for sharing code across the app 
+ */
 
-        // create user variable
+/* a service to tell our controllers the current state of the application */
+angular.module('myApp').service('AppStateService', function() {
+
+    var appState = null;
+
+    function getState() {
+        return appState;
+    }
+
+    function setState(arg) {
+        appState = arg;
+        return appState;
+    }
+
+    return ({
+        getState: getState,
+        setState: setState
+    });
+
+});
+
+
+/* authentication service */
+angular.module('myApp').factory('AuthService', ['$q', '$http',
+    function($q, $http) {
+
+        /* create user var */
         var user = null;
 
-        function isLoggedIn() {
+        /* a function for registering user accounts */
+        function register(firstName, lastName, username, password) {
 
+            /* create a new instance of deferred */
             var deferred = $q.defer();
 
+            /* send a post request to the server */
+            $http.post('/user/register', {
+                    firstName: firstName,
+                    lastName: lastName,
+                    username: username,
+                    password: password
+                })
+                /* handle success */
+                .success(function(data, status) {
+                    if (status === 200 && data.status) {
+                        deferred.resolve();
+                    } else {
+                        deferred.reject();
+                    }
+                })
+                // handle error
+                .error(function(data) {
+                    deferred.reject();
+                });
+
+            // return promise object
+            return deferred.promise;
+
+        }
+
+        /* a function to ping the server to see if the user is still logged in */
+        function isLoggedIn() {
+
+            /* create a new instance of deferred 
+             * defer is a service to help run functions asynchronously
+             * this way no other code is executed until a promise is made
+             */
+            var deferred = $q.defer();
+
+            /* use the angular core http service to interact with the server
+             * I think we could also use the ngResource module, but I'm more familiar with $http */
             $http.get('/user/get-login')
-                // handle success
-                .success(function(user, status) {
-                    if (status === 200 && user.username) {
+                /* on success set the user to true 
+                 * resolve the promise 
+                 * or reject the promise
+                 */
+                .success(function(data, status) {
+                    if (status === 200 && data.username) {
                         user = true;
                         deferred.resolve();
                     } else {
@@ -19,36 +87,38 @@ angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http',
                         deferred.reject();
                     }
                 })
-                // handle error
-                .error(function(data) {
+                /* on error set the user to false
+                 * and reject the promise 
+                 */
+                .error(function() {
                     user = false;
                     deferred.reject();
                 });
 
-
+            /* return the promise object */
             return deferred.promise;
-            // if (user) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
         }
 
+        /* a useless function at this point... */
         function getUserStatus() {
             return user;
         }
 
+        /* function for logging users into the app */
         function login(username, password) {
 
-            // create a new instance of deferred
+            /* create a new instance of deferred */
             var deferred = $q.defer();
 
-            // send a post request to the server
+            /* send a post request to the server */
             $http.post('/user/login', {
                     username: username,
                     password: password
                 })
-                // handle success
+                /* on success set the user to true 
+                 * resolve the promise 
+                 * otherwise reject the promise
+                 */
                 .success(function(data, status) {
                     if (status === 200 && data.status) {
                         user = true;
@@ -58,13 +128,15 @@ angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http',
                         deferred.reject();
                     }
                 })
-                // handle error
+                /* on error set the user to false
+                 * and reject the promise 
+                 */
                 .error(function(data) {
                     user = false;
                     deferred.reject();
                 });
 
-            // return promise object
+            /* return the promise object */
             return deferred.promise;
 
         }
@@ -92,35 +164,9 @@ angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http',
 
         }
 
-        function register(username, password) {
 
-            // create a new instance of deferred
-            var deferred = $q.defer();
 
-            // send a post request to the server
-            $http.post('/user/register', {
-                    username: username,
-                    password: password
-                })
-                // handle success
-                .success(function(data, status) {
-                    if (status === 200 && data.status) {
-                        deferred.resolve();
-                    } else {
-                        deferred.reject();
-                    }
-                })
-                // handle error
-                .error(function(data) {
-                    deferred.reject();
-                });
-
-            // return promise object
-            return deferred.promise;
-
-        }
-
-        // return available functions for use in controllers
+        /* return the available functions for use in our app controllers */
         return ({
             isLoggedIn: isLoggedIn,
             getUserStatus: getUserStatus,

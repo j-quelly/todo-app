@@ -1,11 +1,10 @@
 # todo-app
 - MEAN stack app for PLAR
 
-### Current Version: 0.0.5
+### Current Version: 0.0.6
 
 ## Getting Started
-1. ```$ bower install```
-2. ```$ npm install```
+1. ```$ npm install```
 3. ```$ npm start```
 
 ## Default Usage
@@ -15,9 +14,14 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v0.0.6 (1/11/2016)
+	- fixes authentication 
+	- allows app page refresh
+	- fixes page restrictions
+	- adds more comments
+	- adds new service
 - v0.0.5 (1/8/2016)
 	- adds todo view
-	- 
 - v0.0.4 (1/7/2016)
 	- aesthetic changes
 	- adds code comments

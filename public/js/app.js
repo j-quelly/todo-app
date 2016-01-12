@@ -3,14 +3,15 @@
  */
 
 /* 
- * create our angular module 
- * all of our logic bolts on to this module
- * inject the angular route module
+ * create the myApp angular module
+ * the app is small enough that we can use just one module 
+ * all of the logic bolts on to this module
+ * DI the angular route module
  */
 var myApp = angular.module('myApp', ['ngRoute']);
 
 /* 
- * configure our client-side routes 
+ * configure the client-side routes 
  */
 myApp.config(function($routeProvider) {
     $routeProvider
@@ -20,85 +21,44 @@ myApp.config(function($routeProvider) {
         })
         .when('/login', {
             templateUrl: 'partial/login',
-            controller: 'LoginCtrl'
-        })
-        .when('/logout', {
-            controller: 'LogoutCtrl'
+            controller: 'LoginController'
         })
         .when('/register', {
             templateUrl: 'partial/register',
-            controller: 'RegisterCtrl'
-        })
-        .when('/one', {
-            template: '<h1>This is page one!</h1>'
-        })
-        .when('/two', {
-            template: '<h1>This is page two!</h1>'
+            controller: 'RegisterController'
         })
         .otherwise({
             redirectTo: '/'
         });
 });
 
-/* run this on initial load*/
-myApp.run(function($rootScope, $location, $http, AuthService) {
-    $http.get('/user/get-login')
-        .success(function(data) {
-            console.log(data);
-            if (data && data.username) {
-                console.log('in');
-                console.log(data.username);
-                $rootScope.user = data.username;
-            } else {
-                console.log('out');
-            }
-        });
-});
+/* 
+ * every time the route changes check for login credentials 
+ */
+myApp.run(function($rootScope, $location, AuthService) {
 
-myApp.run(function($rootScope, $location, $route, AuthService) {
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
 
-        if ($rootScope.user) {
-            console.log('user');
-        } else {
-            console.log(' no user');
+        /* set the current path */
+        var currentPage = $location.path(),
+            /* create an array of unrestricted paths */
+            unrestricted = ['/register', '/login'];
+
+
+        if (unrestricted.indexOf(currentPage) === -1) {
+            AuthService.isLoggedIn()
+                .then(function() {
+                    /* user is logged in
+                     * redirect to root
+                     * set the app state?
+                     */
+                    // console.log(AuthService.getUserStatus());
+                    $location.path('/');
+                })
+                /* handle error */
+                .catch(function() {
+                    $location.path('/login');
+                });
         }
-
-        // AuthService.isLoggedIn();
-
-        // var currentPage = $location.$$url;
-        // AuthService.isLoggedIn()
-        //     .then(function() {
-        //         // user is logged in
-
-        //         // console.log(AuthService.isLoggedIn());
-        //     })
-        //     // handle error
-        //     .catch(function() {
-        //         $location.path('/login');
-        //     });
-
-        /*       $http.get('/user/get-login')
-                   // handle success
-                   .success(function(user, status) {
-                       if (status === 200 && user.username) {
-                           // do nothing, right?                        
-                       } else {
-                           $location.path('/login');
-                       }
-                   })
-                   // handle error
-                   .error(function(data) {
-                       $location.path('/login');
-                   });*/
-
-
-        // console.log('reatus:' + AuthService.getUserStatus());
-
-        // if (currentPage !== '/register') {
-        // $location.path('/login');
-        // }
-
-
     });
 });

@@ -1,12 +1,47 @@
+/* 
+ * application programming interface for todo app
+ */
+
+/* express server app dependencies */
 var express = require('express'),
     router = express.Router(),
+
+    /* passport package for easy authentication */
     passport = require('passport'),
-    colors = require('colors');
 
+    /* require our user model */
+    User = require('../models/user.js'),
 
-User = require('../models/user.js');
+    /* require our item model */
+    Item = require('../models/item.js');
 
+/* route for user registration */
+router.post('/register', function(req, res) {
 
+    /* post first and last name */
+
+    /* register a new user */
+    User.register(new User({
+        username: req.body.username
+    }), req.body.password, function(err, account) {
+
+        /* if there is an error return a 500 error code */
+        if (err) {
+            return res.status(500).json({
+                err: err
+            });
+        }
+
+        /* otherwise authenticate the new user? */
+        passport.authenticate('local')(req, res, function() {
+            return res.status(200).json({
+                status: 'Registration successful!'
+            });
+        });
+    });
+});
+
+/* route for logging the user into the application */
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) {
@@ -37,22 +72,7 @@ router.post('/login', function(req, res, next) {
     })(req, res, next);
 });
 
-router.post('/register', function(req, res) {
-    User.register(new User({
-        username: req.body.username
-    }), req.body.password, function(err, account) {
-        if (err) {
-            return res.status(500).json({
-                err: err
-            });
-        }
-        passport.authenticate('local')(req, res, function() {
-            return res.status(200).json({
-                status: 'Registration successful!'
-            });
-        });
-    });
-});
+
 
 
 

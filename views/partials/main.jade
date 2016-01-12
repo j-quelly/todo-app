@@ -1,7 +1,18 @@
+header(ng-controller="LogoutController")
+	.container
+		a.button-collapse.top-nav.hide-on-large-only.right(href='#', data-activates='nav-mobile')
+			i.mdi-navigation-menu
+		ul#nav-mobile.side-nav.fixed
+			li.center
+				i.large.material-icons 
+					| account_circle
+			li
+				a(ng-click='logout()') Logout	
+
 .row(ng-controller="TodoListController as todoList")
 	.col.s12.center
-		h1 Two.deux
-		p lorem
+		h1 TWO.DEUX
+		p Welcome back
 
 	.col.l6.offset-l3.m8.offset-m2.s12
 		.card-panel.grey.lighten-4

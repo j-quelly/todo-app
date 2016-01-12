@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
     /* schema class */
     Schema = mongoose.Schema,
 
-    /* passports local strat */
+    /* passport's local strat */
     passportLocalMongoose = require('passport-local-mongoose');
 
 /* defines our user schema */
