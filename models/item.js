@@ -9,12 +9,16 @@ var mongoose = require('mongoose'),
     /* schema class */
     Schema = mongoose.Schema;
 
-/* defines our user schema */
+/* defines our item schema */
 var Item = new Schema({
     body: String,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    complete: {
+        type: Boolean,
+        default: false
     }
 });
 

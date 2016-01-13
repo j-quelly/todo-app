@@ -22,3 +22,19 @@ angular.module('myApp').directive('tdToasts', function() {
         }
     };
 });
+
+/* directive for injecting the DOM with materialize toasts */
+angular.module('myApp').directive('tdToolTips', function() {
+    return {
+        /* restice this directive to an attribute */
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+
+            // enable tooltips
+            $('.tooltipped').tooltip({
+                delay: 50
+            });
+
+        }
+    };
+});

@@ -2,6 +2,125 @@
  * services for sharing code across the app 
  */
 
+
+/* item crud service */
+angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $http) {
+
+    function createItem(arg) {
+
+        /* create a new instance of deferred */
+        var deferred = $q.defer();
+
+        /* send a post request to the server */
+        $http.post('/item', {
+                body: arg
+            })
+            /* handle success */
+            .success(function(data, status) {
+                if (status === 200) {
+                    deferred.resolve(data);
+                } else {
+                    deferred.reject();
+                }
+            })
+            // handle error
+            .error(function(data) {
+                deferred.reject();
+            });
+
+        // return promise object
+        return deferred.promise;
+    }
+
+
+    function getItems() {
+
+        /* create a new instance of deferred */
+        var deferred = $q.defer();
+
+        /* send a post request to the server */
+        $http.get('/item')
+            /* handle success */
+            .success(function(data, status) {
+                if (status === 200) {
+                    deferred.resolve(data);
+                } else {
+                    deferred.reject();
+                }
+            })
+            // handle error
+            .error(function(data) {
+                deferred.reject();
+            });
+
+        // return promise object
+        return deferred.promise;
+    }
+
+    function deleteItem(id) {
+
+        /* create a new instance of deferred */
+        var deferred = $q.defer();
+
+        /* send a post request to the server */
+        $http.delete('/item/' + id)
+            /* handle success */
+            .success(function(data, status) {
+                if (status === 200) {
+                    deferred.resolve(data);
+                } else {
+                    deferred.reject();
+                }
+            })
+            // handle error
+            .error(function(data) {
+                deferred.reject();
+            });
+
+        // return promise object
+        return deferred.promise;
+    }
+
+
+    function toggleItem(id, status) {
+
+        // set the status to true or false
+        status = (status === false ? true : false);
+
+        /* create a new instance of deferred */
+        var deferred = $q.defer();
+
+        /* send a post request to the server */
+        $http.put('/item/' + id, {
+                status: status
+            })
+            /* handle success */
+            .success(function(data, status) {
+                if (status === 200) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                }
+            })
+            // handle error
+            .error(function(data) {
+                deferred.reject();
+            });
+
+        // return promise object
+        return deferred.promise;
+    }
+
+    return ({
+        createItem: createItem,
+        getItems: getItems,
+        deleteItem: deleteItem,
+        toggleItem: toggleItem
+    });
+
+
+}]);
+
 /* a service to tell our controllers the current state of the application */
 angular.module('myApp').service('AppStateService', function() {
 
@@ -32,15 +151,13 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
         var user = null;
 
         /* a function for registering user accounts */
-        function register(firstName, lastName, username, password) {
+        function register(username, password) {
 
             /* create a new instance of deferred */
             var deferred = $q.defer();
 
             /* send a post request to the server */
             $http.post('/user/register', {
-                    firstName: firstName,
-                    lastName: lastName,
                     username: username,
                     password: password
                 })
@@ -81,7 +198,7 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
                 .success(function(data, status) {
                     if (status === 200 && data.username) {
                         user = true;
-                        deferred.resolve();
+                        deferred.resolve(data);
                     } else {
                         user = false;
                         deferred.reject();

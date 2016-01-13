@@ -8,7 +8,7 @@
  * all of the logic bolts on to this module
  * DI the angular route module
  */
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.materialize']);
 
 /* 
  * configure the client-side routes 
@@ -39,9 +39,9 @@ myApp.run(function($rootScope, $location, AuthService) {
 
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
 
-        /* set the current path */
+        // set the current path 
         var currentPage = $location.path(),
-            /* create an array of unrestricted paths */
+            // create an array of unrestricted paths 
             unrestricted = ['/register', '/login'];
 
 
@@ -50,12 +50,11 @@ myApp.run(function($rootScope, $location, AuthService) {
                 .then(function() {
                     /* user is logged in
                      * redirect to root
-                     * set the app state?
+                     * set the app state????
                      */
-                    // console.log(AuthService.getUserStatus());
                     $location.path('/');
                 })
-                /* handle error */
+                // handle error 
                 .catch(function() {
                     $location.path('/login');
                 });

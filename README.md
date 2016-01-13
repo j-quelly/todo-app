@@ -1,11 +1,12 @@
 # todo-app
 - MEAN stack app for PLAR
 
-### Current Version: 0.0.6
+### Current Version: 0.0.8
 
 ## Getting Started
 1. ```$ npm install```
-3. ```$ npm start```
+2. ```$ npm start```
+3. Open browser to http://localhost:3000
 
 ## Default Usage
 ```$ npm start```
@@ -14,6 +15,16 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v0.0.7 (1/12/2016)
+	- changes to api to add item noun
+	- adds create operation
+	- adds read operation
+	- adds delete operation
+	- adds angular directives for materialize
+	- removes materialize.js
+	- cleans up grunt file
+	- adds first update operation for toggling status of item
+	- adds search functionality
 - v0.0.6 (1/11/2016)
 	- fixes authentication 
 	- allows app page refresh

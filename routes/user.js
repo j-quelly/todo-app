@@ -1,6 +1,7 @@
 /* 
- * application programming interface for todo app
+ * user api 
  */
+
 
 /* express server app dependencies */
 var express = require('express'),
@@ -10,15 +11,11 @@ var express = require('express'),
     passport = require('passport'),
 
     /* require our user model */
-    User = require('../models/user.js'),
+    User = require('../models/user.js');
 
-    /* require our item model */
-    Item = require('../models/item.js');
 
 /* route for user registration */
 router.post('/register', function(req, res) {
-
-    /* post first and last name */
 
     /* register a new user */
     User.register(new User({
@@ -40,6 +37,7 @@ router.post('/register', function(req, res) {
         });
     });
 });
+
 
 /* route for logging the user into the application */
 router.post('/login', function(req, res, next) {
@@ -73,9 +71,7 @@ router.post('/login', function(req, res, next) {
 });
 
 
-
-
-
+/* for logging the user out of the app */
 router.get('/logout', function(req, res) {
     req.logout();
     res.status(200).json({
@@ -83,8 +79,11 @@ router.get('/logout', function(req, res) {
     });
 });
 
+
+/* check to see the user is logged in */
 router.get('/get-login', function(req, res) {
     res.send(req.user);
 });
+
 
 module.exports = router;

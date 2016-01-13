@@ -18,10 +18,6 @@
 						input.validate(type='password', ng-model="loginForm.password")
 						label(for='password') Password
 
-					//- .col.s12
-					//- 	input.blue(type="checkbox", id="remember-me")
-					//- 	label(for="remember-me") Remember me
-
 					.col.s12
 						input.btn-large.blue(ng-disabled="!loginForm.username || !loginForm.password", type="submit", value="Log In")
 
