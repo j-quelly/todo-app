@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+	.row#content
+		.col.s12.center
+			h1 Oops!			
+			p It looks like something went wrong...
+			p 
+				a(href="/#/") return home				

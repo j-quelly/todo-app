@@ -1,24 +1,24 @@
 {
-  "name": "todo-app",
-  "version": "0.0.7",
-  "description": "MEAN stack app for PLAR",
-  "authors": [
-    "Jamie Kelly <jamie@studio174.ca>"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/studio174/todo-app",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "private": true,
-  "dependencies": {
-    "Materialize": "materialize#~0.97.5",
-    "angular": "~1.4.8",
-    "angular-route": "~1.4.8",
-    "angular-materialize": "~0.1.2"
-  }
+    "name": "todo-app",
+    "version": "3.3.2",
+    "description": "MEAN stack app for PLAR",
+    "authors": [
+        "Jamie Kelly <jamie@studio174.ca>"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/studio174/todo-app",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "private": true,
+    "dependencies": {
+        "Materialize": "materialize#~0.97.5",
+        "angular": "~1.4.8",
+        "angular-route": "~1.4.8",
+        "angular-materialize": "~0.1.2"
+    }
 }

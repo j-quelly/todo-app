@@ -33,16 +33,7 @@ module.exports = (grunt) ->
 				options:
 					env: { 
 						"NODE_ENV": "dev" 
-					}
-					# watch: [
-					# 	"public"						
-					# ] 
-					# ignore: [
-					# 	"client/public/*", 
-					# 	".git/*", 
-					# 	"*.jade", 
-					# 	"node_modules/*"
-					# ],					
+					}				
 					delay: 300
 					callback: (nodemon) ->
 
@@ -69,8 +60,7 @@ module.exports = (grunt) ->
 				]
 				cwd: './'
 				exclude: [
-					"bin/materialize.css",
-					"bin/materialize.js"
+					"bin/materialize.css"
 				]
 				ignorePath: /^(\.\.\/\.\.\/)/
 

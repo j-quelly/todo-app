@@ -1,102 +1,29 @@
-/*
- * app controllers
- * for passing data to and from the DOM
+/**
+ * App Controllers
  */
-
-/* login controller */
-angular.module('myApp').controller('LoginController', ['$scope', '$location', 'AuthService', 'AppStateService',
-
-    function($scope, $location, AuthService, AppStateService) {
-
-        /* create an empty object for the form */
-        $scope.loginForm = {};
-
-        $scope.login = function() {
-
-            /* assume our form is pristine */
-            $scope.error = false;
-
-            /* call login from the authentication service */
-            AuthService.login($scope.loginForm.username, $scope.loginForm.password)
-                /* on success redirect to root */
-                .then(function() {
-                    /* set the state of the application */
-                    AppStateService.setState(true);
-                    // console.log(AppStateService.getState());
-                    $location.path('/');
-                })
-                /* on error retrun a friendly message that the td-toast directive is watching for */
-                .catch(function() {
-                    $scope.error = true;
-                    $scope.errorMessage = "Invalid username or password, please try again";
-                });
-
-        };
-
-    }
-]);
-
-/* registration controller */
-angular.module('myApp').controller('RegisterController', ['$scope', '$location', 'AuthService',
-    function($scope, $location, AuthService) {
-
-        /* create an empty object for our model */
-        $scope.registerForm = {};
-
-        $scope.register = function() {
-
-            /* initialize vars */
-            $scope.error = false;
-
-            /* call register from service */
-            AuthService.register($scope.registerForm.username, $scope.registerForm.password)
-                /* handle success and forward to the login page */
-                .then(function() {
-                    $location.path('/login');
-                })
-                /* handle error and display friendly error message */
-                .catch(function() {
-                    $scope.error = true;
-                    $scope.errorMessage = "Something went wrong, please try again.";
-                });
-        };
-    }
-]);
-
-/* log out controller */
-angular.module('myApp').controller('LogoutController', ['$scope', '$location', 'AuthService', 'AppStateService',
-    function($scope, $location, AuthService, AppStateService) {
-
-        $scope.appState = AppStateService.getState();
-
-        // console.log($scope.appState);
-
-        $scope.logout = function() {
-
-            // call logout from service
-            AuthService.logout()
-                .then(function() {
-                    $location.path('/login');
-                });
-
-        };
-
-    }
-]);
 
 
 /**
- * To do list controller
+ * To do list Controller
  */
 angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService', 'AuthService',
     function($scope, ItemService, AuthService) {
 
-        // start with an empty array
+        // start with an empty array of items
         $scope.items = [];
-        $scope.user =
 
-            // use our service to get all items
-            ItemService.getItems()
+        // use this service to get the username
+        AuthService.userStatus()
+            .then(function(data) {
+                $scope.username = data.username;
+            })
+            // handle error 
+            .catch(function() {
+                $location.path('/login');
+            });
+
+        // use our service to get all the users items
+        ItemService.getItems()
             // handle success
             .then(function(data) {
                 $scope.items = data;
@@ -185,6 +112,96 @@ angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService
 
                 }
             });
+        };
+
+    }
+]);
+
+
+/**
+ * Login Controller
+ */
+angular.module('myApp').controller('LoginController', ['$scope', '$location', 'AuthService', 'AppStateService',
+
+    function($scope, $location, AuthService, AppStateService) {
+
+        /* create an empty object for the form */
+        $scope.loginForm = {};
+
+        $scope.login = function() {
+
+            /* assume our form is pristine */
+            $scope.error = false;
+
+            /* call login from the authentication service */
+            AuthService.login($scope.loginForm.username, $scope.loginForm.password)
+                /* on success redirect to root */
+                .then(function() {
+                    /* set the state of the application */
+                    AppStateService.setState(true);
+                    // console.log(AppStateService.getState());
+                    $location.path('/');
+                })
+                /* on error retrun a friendly message that the td-toast directive is watching for */
+                .catch(function() {
+                    $scope.error = true;
+                    $scope.errorMessage = "Invalid username or password, please try again";
+                });
+
+        };
+
+    }
+]);
+
+
+/**
+ * Registration Controller
+ */
+angular.module('myApp').controller('RegisterController', ['$scope', '$location', 'AuthService',
+    function($scope, $location, AuthService) {
+
+        /* create an empty object for our model */
+        $scope.registerForm = {};
+
+        $scope.register = function() {
+
+            /* initialize vars */
+            $scope.error = false;
+
+            /* call register from service */
+            AuthService.register($scope.registerForm.username, $scope.registerForm.password)
+                /* handle success and forward to the login page */
+                .then(function() {
+                    $location.path('/login');
+                })
+                /* handle error and display friendly error message */
+                .catch(function() {
+                    $scope.error = true;
+                    $scope.errorMessage = "Something went wrong, please try again.";
+                });
+        };
+    }
+]);
+
+
+/**
+ * Log out Controller
+ */
+angular.module('myApp').controller('LogoutController', ['$scope', '$location', 'AuthService', 'AppStateService',
+    function($scope, $location, AuthService, AppStateService) {
+
+        // $scope.appState = AppStateService.getState();
+
+        // // console.log($scope.appState);
+
+
+        $scope.logout = function() {
+            // call logout from service
+            AuthService.logout()
+                .then(function() {
+                    $location.path('/login');
+                });
+
         };
 
     }

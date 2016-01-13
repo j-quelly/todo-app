@@ -12,7 +12,7 @@
 .row#main(ng-controller="TodoListController as todoList", td-toasts)
 	.col.s12.center
 		h1 TWO.DEUX
-		p Welcome back {{derp}}
+		p Welcome to DEUX, {{username}}
 
 	.col.l6.offset-l3.m8.offset-m2.s12
 		.card-panel.grey.lighten-4
@@ -23,7 +23,7 @@
 
 			span {{remaining()}} of {{items.length}} remaining 
 			| [
-			a(href="", ng-click="archive()") archive
+			a(href="", ng-click="archive()") delete completed
 			| ]
 			
 			ul.collection(ng-repeat="item in items | filter:query")
@@ -31,7 +31,7 @@
 					input.blue(type="checkbox", id="item-{{$index}}", ng-model="item.complete")
 					label(for="item-{{$index}}", class="done-{{item.complete}}", ng-click="toggleItem(item._id, $index)") {{item.body}}
 					i.material-icons.hide-on-small-only(tooltipped, data-position="top", data-delay="50", data-tooltip="delete", ng-click="deleteItem(item._id)") delete
-					i.material-icons(tooltipped, data-position="top", data-delay="50", data-tooltip="edit") input
+					//- i.material-icons(tooltipped, data-position="top", data-delay="50", data-tooltip="edit") input
 
 	.col.l6.offset-l3.m8.offset-m2.s12
 		form(ng-submit="createItem()", action="")

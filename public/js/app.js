@@ -46,12 +46,9 @@ myApp.run(function($rootScope, $location, AuthService) {
 
 
         if (unrestricted.indexOf(currentPage) === -1) {
-            AuthService.isLoggedIn()
-                .then(function() {
-                    /* user is logged in
-                     * redirect to root
-                     * set the app state????
-                     */
+            AuthService.userStatus()
+                .then(function(data) {
+                    // redirect to root
                     $location.path('/');
                 })
                 // handle error 

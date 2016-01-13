@@ -1,9 +1,11 @@
-/*
- * services for sharing code across the app 
+/**
+ * App Services
  */
 
 
-/* item crud service */
+/**
+ * To do list Service
+ */
 angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $http) {
 
     function createItem(arg) {
@@ -180,7 +182,7 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
         }
 
         /* a function to ping the server to see if the user is still logged in */
-        function isLoggedIn() {
+        function userStatus() {
 
             /* create a new instance of deferred 
              * defer is a service to help run functions asynchronously
@@ -216,10 +218,6 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
             return deferred.promise;
         }
 
-        /* a useless function at this point... */
-        function getUserStatus() {
-            return user;
-        }
 
         /* function for logging users into the app */
         function login(username, password) {
@@ -285,8 +283,7 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
 
         /* return the available functions for use in our app controllers */
         return ({
-            isLoggedIn: isLoggedIn,
-            getUserStatus: getUserStatus,
+            userStatus: userStatus,
             login: login,
             logout: logout,
             register: register
