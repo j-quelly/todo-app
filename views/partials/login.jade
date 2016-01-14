@@ -1,7 +1,7 @@
 .row#content(td-toasts)
 	.col.s12.center
 		h1 Two.deux
-		p Sign in to begin
+		h5 Log in
 
 	.col.l4.offset-l4.m6.offset-m3 
 		.card-panel.grey.lighten-4
@@ -9,14 +9,15 @@
 				.center
 					i.large.material-icons 
 						| account_circle
+				//- action attribute exists so there is a "go" button on mobile devices
 				form.form(ng-submit="login()", action="")
-					.input-field.col.s12
+					.input-field.col.s12(input-field)
 						input.validate(type='email', ng-model="loginForm.username")
-						label(for='username') Username
+						label Email Address
 
-					.input-field.col.s12
+					.input-field.col.s12(input-field)
 						input.validate(type='password', ng-model="loginForm.password")
-						label(for='password') Password
+						label Password
 
 					.col.s12
 						input.btn-large.blue(ng-disabled="!loginForm.username || !loginForm.password", type="submit", value="Log In")

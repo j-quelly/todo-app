@@ -1,7 +1,7 @@
 .row#content(td-toasts)
   .col.s12.center
     h1 Two.deux
-    p Sign up
+    h5 Sign up
 
   .col.l4.offset-l4.m6.offset-m3 
     .card-panel.grey.lighten-4
@@ -12,24 +12,16 @@
 
         form.form(ng-submit="register()", action="")
 
-          //- .input-field.col.s12
-          //-   input.validate(type='text', ng-model="registerForm.firstName")
-          //-   label(for='firstName') First Name
-
-          //- .input-field.col.s12
-          //-   input.validate(type='text', ng-model="registerForm.lastName")
-          //-   label(for='lastName') Last Name
-
-          .input-field.col.s12
+          .input-field.col.s12(input-field)
             input.validate(type='email', ng-model="registerForm.username")
-            label(for='username', data-error="user@name.com") Username
+            label(data-error="user@name.com") Email Address
 
-          .input-field.col.s12
+          .input-field.col.s12(input-field)
             input.validate(type='password', ng-model="registerForm.password")
-            label(for='password') Password
+            label Password
 
           .col.s12
-            input.btn-large.blue(ng-disabled="!registerForm.username || !registerForm.password", type="submit", value="Register") 
+            input.btn-large.blue(ng-disabled="!registerForm.username || !registerForm.password", type="submit", value="Sign Up") 
 
     .center
-      a(href="#/login") Log in
+      a(href="#/login") Already have an account?

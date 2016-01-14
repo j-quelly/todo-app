@@ -1,15 +1,14 @@
-/*
- * to do item model/schema
+/**
+ * To do item model/schema
  */
 
-
-/* require mongoose for data modeling */
+// require mongoose for data modeling 
 var mongoose = require('mongoose'),
 
-    /* schema class */
+    // schema class 
     Schema = mongoose.Schema;
 
-/* defines our item schema */
+// defines our todo item schema 
 var Item = new Schema({
     body: String,
     user: {

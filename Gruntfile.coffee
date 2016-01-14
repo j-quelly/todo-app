@@ -53,7 +53,7 @@ module.exports = (grunt) ->
 
 		# wire bower dependencies
 		wiredep:
-			tasks: 
+			tasks:  
 				directory: "bower_components"
 				src: [
 					"views<%= path.sep %>layout.jade"
@@ -103,11 +103,101 @@ module.exports = (grunt) ->
 					spawn: false
 
 
+		# concat bower components
+		bower_concat: 
+			build: 
+		    	dest: 'public/js/lib.js' 
+
+
+		# minify js
+		uglify:
+			build:
+				options:
+					compress: true
+					mangle: true
+					beautify: false
+				files:	
+					"public<%= path.sep %>js<%= path.sep %>app.min.js" : [
+						'public<%= path.sep %>js<%= path.sep %>app.js'
+						'public<%= path.sep %>js<%= path.sep %>controllers.js'
+						'public<%= path.sep %>js<%= path.sep %>directives.js'
+						'public<%= path.sep %>js<%= path.sep %>services.js'						
+					],	
+					"public<%= path.sep %>js<%= path.sep %>lib.min.js" : 'public<%= path.sep %>js<%= path.sep %>lib.js'				
+
+
+		# compress our css files		
+		cssmin:
+			build:
+				files:
+					"public<%= path.sep %>css<%= path.sep %>app.min.css": [
+						'public' + '<%= path.sep %>css<%= path.sep %>*.css'
+						'!public' + '<%= path.sep %>css<%= path.sep %>app.min.css'
+					]	
+
+
+		# replace dev dep with build dependencies
+		'string-replace': 
+			build:
+				files:
+					'views<%= path.sep %>layout.jade' : 'views<%= path.sep %>layout.jade'
+				options:
+					replacements: [
+						{
+							pattern: 'link(rel="stylesheet", href="css/app.css")' 
+							replacement: 'link(rel="stylesheet", href="css/app.min.css")' 
+						},
+						{
+							pattern: "script(src='../bower_components/jquery/dist/jquery.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='../bower_components/Materialize/bin/materialize.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='../bower_components/angular/angular.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='../bower_components/angular-route/angular-route.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='../bower_components/angular-materialize/src/angular-materialize.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='../bower_components/angular-animate/angular-animate.js')"
+							replacement: "script(src='js/lib.min.js')"
+						},																		
+						{
+							pattern: "script(src='js/app.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='js/services.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='js/controllers.js')"
+							replacement: ""
+						},
+						{
+							pattern: "script(src='js/directives.js')"
+							replacement: "script(src='js/app.min.js')"
+						},												
+					]								
+
+
+
 	# require our tasks
 	require('time-grunt')(grunt);
 	require('load-grunt-tasks')(grunt); 
+	grunt.loadNpmTasks "grunt-string-replace"
 
 
 	# register our grunt tasks
 	grunt.registerTask("default", ["availabletasks"])
 	grunt.registerTask("serve-dev", ["wiredep", "sass:dev", "concurrent:dev"])
+	grunt.registerTask("build", ["bower_concat:build", "uglify:build", "cssmin:build", "string-replace:build"])

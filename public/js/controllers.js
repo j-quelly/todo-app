@@ -1,20 +1,23 @@
 /**
- * App Controllers
+ * myApp Controllers
  */
 
 
 /**
  * To do list Controller
  */
-angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService', 'AuthService',
-    function($scope, ItemService, AuthService) {
+angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService', 'UserService',
+    function($scope, ItemService, UserService) {
 
         // start with an empty array of items
         $scope.items = [];
+        // set the icon for the search bar (see main.jade for why)
+        $scope.icon = 'search';
 
         // use this service to get the username
-        AuthService.userStatus()
+        UserService.userStatus()
             .then(function(data) {
+                // set the username to display a friendly message to the user
                 $scope.username = data.username;
             })
             // handle error 
@@ -34,33 +37,44 @@ angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService
                 $scope.errorMessage = "Something went wrong, please try again.";
             });
 
+        // function for clearing search field
+        $scope.clearSearch = function() {
+            $scope.icon = 'search';
+            $scope.query = '';
+        };
+
         // function used for adding items
         $scope.createItem = function() {
 
+            // assume there are no errors
+            $scope.error = false;
+
             // use item service to add to db
-            ItemService.createItem($scope.todoText)
+            ItemService.createItem($scope.todoList.todoText)
                 // handle success
                 .then(function(data) {
                     // push in new data from the server
-                    $scope.items = data;
+                    $scope.items.push(data[data.length - 1]);
                     // reset input field
-                    $scope.todoText = '';
+                    $scope.todoList.todoText = '';
                 })
                 // handle error and display friendly error message 
                 .catch(function() {
                     $scope.error = true;
                     $scope.errorMessage = "Something went wrong, please try again.";
                 });
+
         };
 
         // function used for deleting items
-        $scope.deleteItem = function(id) {
+        $scope.deleteItem = function(id, index) {
 
             // use item service to remove from db
             ItemService.deleteItem(id)
                 // handle success
                 .then(function(data) {
-                    $scope.items = data;
+                    // remove the item 
+                    $scope.items.splice(index, 1);
                 })
                 // handle error and display friendly error message 
                 .catch(function() {
@@ -84,28 +98,35 @@ angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService
                 });
         };
 
+        // let the user know how many items remain
         $scope.remaining = function() {
+            // set a count
             var count = 0;
+            // loop thru items
             angular.forEach($scope.items, function(item) {
-                count += item.done ? 0 : 1;
+                // if the item is not done then increase
+                count += item.complete ? 0 : 1;
             });
+            // return the count to the DOM
             return count;
         };
 
+        // archive one or many items
         $scope.archive = function() {
-            var oldItems = $scope.items;
-            $scope.items = [];
-            angular.forEach(oldItems, function(item) {
-                if (item.done) {
+            // loop thru items
+            angular.forEach($scope.items, function(item) {
+                // if the item is complete
+                if (item.complete) {
                     // use item service to remove from db
                     ItemService.deleteItem(item._id)
-                        // handle success
+                        // on success
                         .then(function(data) {
-                            // this needs to be improved
+                            // repopualte the list from db
                             $scope.items = data;
                         })
                         // handle error and display friendly error message 
                         .catch(function() {
+                            // set an error
                             $scope.error = true;
                             $scope.errorMessage = "Something went wrong, please try again.";
                         });
@@ -121,28 +142,25 @@ angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService
 /**
  * Login Controller
  */
-angular.module('myApp').controller('LoginController', ['$scope', '$location', 'AuthService', 'AppStateService',
+angular.module('myApp').controller('LoginController', ['$scope', '$location', 'UserService',
 
-    function($scope, $location, AuthService, AppStateService) {
+    function($scope, $location, UserService) {
 
-        /* create an empty object for the form */
+        // create an empty object for the form 
         $scope.loginForm = {};
 
         $scope.login = function() {
 
-            /* assume our form is pristine */
+            // assume our form is pristine 
             $scope.error = false;
 
-            /* call login from the authentication service */
-            AuthService.login($scope.loginForm.username, $scope.loginForm.password)
-                /* on success redirect to root */
+            // call login from the authentication service 
+            UserService.login($scope.loginForm.username, $scope.loginForm.password)
+                // on success redirect to root 
                 .then(function() {
-                    /* set the state of the application */
-                    AppStateService.setState(true);
-                    // console.log(AppStateService.getState());
                     $location.path('/');
                 })
-                /* on error retrun a friendly message that the td-toast directive is watching for */
+                // on error retrun a friendly message that the td-toast directive is watching for 
                 .catch(function() {
                     $scope.error = true;
                     $scope.errorMessage = "Invalid username or password, please try again";
@@ -157,24 +175,24 @@ angular.module('myApp').controller('LoginController', ['$scope', '$location', 'A
 /**
  * Registration Controller
  */
-angular.module('myApp').controller('RegisterController', ['$scope', '$location', 'AuthService',
-    function($scope, $location, AuthService) {
+angular.module('myApp').controller('RegisterController', ['$scope', '$location', 'UserService',
+    function($scope, $location, UserService) {
 
-        /* create an empty object for our model */
+        // create an empty object for our model 
         $scope.registerForm = {};
 
         $scope.register = function() {
 
-            /* initialize vars */
+            // initialize vars 
             $scope.error = false;
 
-            /* call register from service */
-            AuthService.register($scope.registerForm.username, $scope.registerForm.password)
-                /* handle success and forward to the login page */
+            // call register from service 
+            UserService.register($scope.registerForm.username, $scope.registerForm.password)
+                // handle success and forward to the login page 
                 .then(function() {
-                    $location.path('/login');
+                    $location.path('/');
                 })
-                /* handle error and display friendly error message */
+                // handle error and display friendly error message 
                 .catch(function() {
                     $scope.error = true;
                     $scope.errorMessage = "Something went wrong, please try again.";
@@ -187,19 +205,19 @@ angular.module('myApp').controller('RegisterController', ['$scope', '$location',
 /**
  * Log out Controller
  */
-angular.module('myApp').controller('LogoutController', ['$scope', '$location', 'AuthService', 'AppStateService',
-    function($scope, $location, AuthService, AppStateService) {
+angular.module('myApp').controller('LogoutController', ['$rootScope', '$scope', '$location', 'UserService',
+    function($rootScope, $scope, $location, UserService) {
 
-        // $scope.appState = AppStateService.getState();
-
-        // // console.log($scope.appState);
-
-
+        // function for loggin the user out
         $scope.logout = function() {
             // call logout from service
-            AuthService.logout()
+            UserService.logout()
+                // on success
                 .then(function() {
+                    // redirect to the login page
                     $location.path('/login');
+                    // let the app know the user has logged out
+                    $rootScope.loggedIn = false;
                 });
 
         };

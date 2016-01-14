@@ -8,25 +8,30 @@
  */
 angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $http) {
 
+    // function for creating an item
     function createItem(arg) {
 
-        /* create a new instance of deferred */
+        /* create a new instance of deferred 
+         * defer is a service to help run functions asynchronously
+         * this way no other code is executed until a promise is made
+         */
         var deferred = $q.defer();
 
-        /* send a post request to the server */
+        // send a post request to the server 
         $http.post('/item', {
                 body: arg
             })
-            /* handle success */
+            // handle success 
             .success(function(data, status) {
                 if (status === 200) {
+                    // processing is done, time to resolve
                     deferred.resolve(data);
                 } else {
                     deferred.reject();
                 }
             })
             // handle error
-            .error(function(data) {
+            .error(function() {
                 deferred.reject();
             });
 
@@ -35,20 +40,17 @@ angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $htt
     }
 
 
+    // function to get all items for a user
     function getItems() {
 
-        /* create a new instance of deferred */
+        // create a new instance of deferred 
         var deferred = $q.defer();
 
-        /* send a post request to the server */
+        // send a get request to the server 
         $http.get('/item')
-            /* handle success */
+            // handle success 
             .success(function(data, status) {
-                if (status === 200) {
-                    deferred.resolve(data);
-                } else {
-                    deferred.reject();
-                }
+                deferred.resolve(data);
             })
             // handle error
             .error(function(data) {
@@ -59,20 +61,18 @@ angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $htt
         return deferred.promise;
     }
 
+
+    // a function for deleting an item
     function deleteItem(id) {
 
-        /* create a new instance of deferred */
+        // create a new instance of deferred 
         var deferred = $q.defer();
 
-        /* send a post request to the server */
+        // send a delete request to the server 
         $http.delete('/item/' + id)
-            /* handle success */
+            // handle success 
             .success(function(data, status) {
-                if (status === 200) {
-                    deferred.resolve(data);
-                } else {
-                    deferred.reject();
-                }
+                deferred.resolve(data);
             })
             // handle error
             .error(function(data) {
@@ -84,25 +84,22 @@ angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $htt
     }
 
 
+    // a function for marking an item as complete or incomplete
     function toggleItem(id, status) {
 
         // set the status to true or false
         status = (status === false ? true : false);
 
-        /* create a new instance of deferred */
+        // create a new instance of deferred 
         var deferred = $q.defer();
 
-        /* send a post request to the server */
+        // send a put request to the server 
         $http.put('/item/' + id, {
                 status: status
             })
-            /* handle success */
+            // handle success 
             .success(function(data, status) {
-                if (status === 200) {
-                    deferred.resolve();
-                } else {
-                    deferred.reject();
-                }
+                deferred.resolve();
             })
             // handle error
             .error(function(data) {
@@ -113,6 +110,8 @@ angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $htt
         return deferred.promise;
     }
 
+
+    // return our functions
     return ({
         createItem: createItem,
         getItems: getItems,
@@ -120,51 +119,29 @@ angular.module('myApp').factory('ItemService', ['$q', '$http', function($q, $htt
         toggleItem: toggleItem
     });
 
-
 }]);
 
-/* a service to tell our controllers the current state of the application */
-angular.module('myApp').service('AppStateService', function() {
 
-    var appState = null;
-
-    function getState() {
-        return appState;
-    }
-
-    function setState(arg) {
-        appState = arg;
-        return appState;
-    }
-
-    return ({
-        getState: getState,
-        setState: setState
-    });
-
-});
-
-
-/* authentication service */
-angular.module('myApp').factory('AuthService', ['$q', '$http',
+/**
+ * User authentication service 
+ */
+angular.module('myApp').factory('UserService', ['$q', '$http',
     function($q, $http) {
 
-        /* create user var */
-        var user = null;
-
-        /* a function for registering user accounts */
+        // a function for registering user accounts 
         function register(username, password) {
 
-            /* create a new instance of deferred */
+            // create a new instance of deferred 
             var deferred = $q.defer();
 
-            /* send a post request to the server */
+            // send a post request to the server 
             $http.post('/user/register', {
                     username: username,
                     password: password
                 })
-                /* handle success */
+                // handle success 
                 .success(function(data, status) {
+                    // if OK and server responds with a message then resolve the promise
                     if (status === 200 && data.status) {
                         deferred.resolve();
                     } else {
@@ -192,17 +169,15 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
 
             /* use the angular core http service to interact with the server
              * I think we could also use the ngResource module, but I'm more familiar with $http */
-            $http.get('/user/get-login')
+            $http.get('/user/status')
                 /* on success set the user to true 
                  * resolve the promise 
                  * or reject the promise
                  */
                 .success(function(data, status) {
                     if (status === 200 && data.username) {
-                        user = true;
                         deferred.resolve(data);
                     } else {
-                        user = false;
                         deferred.reject();
                     }
                 })
@@ -210,7 +185,6 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
                  * and reject the promise 
                  */
                 .error(function() {
-                    user = false;
                     deferred.reject();
                 });
 
@@ -236,10 +210,8 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
                  */
                 .success(function(data, status) {
                     if (status === 200 && data.status) {
-                        user = true;
                         deferred.resolve();
                     } else {
-                        user = false;
                         deferred.reject();
                     }
                 })
@@ -247,7 +219,6 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
                  * and reject the promise 
                  */
                 .error(function(data) {
-                    user = false;
                     deferred.reject();
                 });
 
@@ -256,6 +227,7 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
 
         }
 
+        // function for logging out
         function logout() {
 
             // create a new instance of deferred
@@ -265,12 +237,10 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
             $http.get('/user/logout')
                 // handle success
                 .success(function(data) {
-                    user = false;
                     deferred.resolve();
                 })
                 // handle error
                 .error(function(data) {
-                    user = false;
                     deferred.reject();
                 });
 
@@ -278,8 +248,6 @@ angular.module('myApp').factory('AuthService', ['$q', '$http',
             return deferred.promise;
 
         }
-
-
 
         /* return the available functions for use in our app controllers */
         return ({

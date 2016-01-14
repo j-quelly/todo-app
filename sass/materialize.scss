@@ -54,25 +54,61 @@
     color: #fff;
 }
 
+.text-white {
+    color: #fff !important;
+}
+
 
 /* structure */
 
 html {
     height: 100%;
-    background: url('../imag
-es/bg.jpg');
+    background: url('../images/bg.jpg');
     background-position: center center;
+    background-attachment: fixed;
+}
+
+.overlay {
+    background: linear-gradient( rgba(26, 121, 196, 0.60), rgba(26, 121, 196, 0.60)), url('../images/bg.jpg');
+}
+
+#nav-mobile {
+    background: #f5f5f5;
+    .center {
+        .material-icons {
+            margin: 40px 0 20px 0;
+            color: #E1E1E1;
+        }
+        &:hover {
+            background: #f5f5f5;
+        }
+    }
+}
+
+.button-collapse {
+    position: absolute;
+    font-size: 48px;
+    right: 20px;
+    z-index: 100;
+}
+
+a {
+    cursor: pointer;
 }
 
 
 /* login */
 
 #content {
-    margin: 60px 0 60px 0;
+    margin: 40px 0 60px 0;
     h1 {
         font-size: 42px;
         color: #555;
         text-transform: uppercase;
+    }
+    h5 {
+        text-transform: uppercase;
+        color: #555;
     }
     .material-icons {
         color: #E1E1E1;
@@ -82,7 +118,7 @@ es/bg.jpg');
         width: 100%;
     }
     .card-panel {
-        padding-bottom: 50px;
+        // padding-bottom: 50px;
     }
 }
 
@@ -100,7 +136,7 @@ es/bg.jpg');
 
 .search {
     .search-wrapper {
-        transition: margin 0.25s ease 0s;
+        transition: margin 0.5s ease 0s;
         i.material-icons {
             cursor: pointer;
             position: absolute;
@@ -126,12 +162,28 @@ es/bg.jpg');
 }
 
 
-/* input[type="text"]:focus:not([readonly]) {
-    border: 0 none !important;
-} */
+/**
+* forms
+*/
+
+.input-field label {
+    color: #9e9e9e;
+    cursor: text;
+    font-size: 1rem;
+    left: 0;
+    position: absolute;
+    top: 0.8rem;
+    transition: all 0.2s ease-out 0s;
+}
+
+.input {
+    label {
+        color: #fff;
+    }
+}
 
 
-/* 
+/** 
  * to do list
  */
 
@@ -163,10 +215,11 @@ es/bg.jpg');
 
 /* footer */
 
-footer {
-    display: none;
-    .page-footer {
-        background-color: none !important;
+footer.page-footer {
+    padding-top: 0 !important;
+    background: none !important;
+    a {
+        color: #fff;
     }
 }
 
@@ -181,4 +234,111 @@ body {
 
 main {
     flex: 1 0 auto;
+}
+
+
+/**
+* animations
+ */
+
+.item.ng-enter,
+.item.ng-leave,
+.item.ng-move {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.item.ng-enter,
+.item.ng-move {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.item.ng-move.ng-move-active,
+.item.ng-enter.ng-enter-active {
+    opacity: 1;
+    height: 45px;
+}
+
+.item.ng-leave {
+    opacity: 1;
+    overflow: hidden;
+}
+
+.item.ng-leave.ng-leave-active {
+    opacity: 0;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.fade.ng-hide {
+    -webkit-animation: 0.5s fade-out;
+    -moz-animation: 0.5s fade-out;
+    -o-animation: 0.5s fade-out;
+    animation: 0.5s fade-out;
+}
+
+.fade.ng-show {
+    -webkit-animation: 0.5s fade-in;
+    -moz-animation: 0.5s fade-in;
+    -o-animation: 0.5s fade-in;
+    animation: 0.5s fade-in;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

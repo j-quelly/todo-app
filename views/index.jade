@@ -1,5 +1,22 @@
 extends layout
 
 block content 
+	header.fade(ng-show="loggedIn", td-sidebar)
+		.container
+			a.button-collapse.top-nav.hide-on-large-only.right(href='#', data-activates='nav-mobile')
+				i.mdi-navigation-menu
+			ul#nav-mobile.side-nav.fixed
+				li.center
+					i.large.material-icons 
+						| account_circle
+				li(ng-controller="LogoutController")
+					a(ng-click='logout()') Logout
+
 	main.container
 		div(ng-view)
+
+	footer.fade.page-footer(ng-show="loggedIn")
+		.footer-copyright
+			.container.right-align
+				| View this project on my 
+				a(href="https://github.com/studio174/todo-app", target="_blank") Github

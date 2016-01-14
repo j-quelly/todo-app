@@ -15,6 +15,12 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v3.4.2 (1/13/2016 - 1/14/2016)
+	- adds comments
+	- minor aesthetic changes
+	- adds some animations
+	- adds grunt uglify, cssmin, bower-concat, string-replace
+	- adds build task
 - v3.3.2 (1/12/2016)
 	- changes to api to add item noun
 	- adds create operation

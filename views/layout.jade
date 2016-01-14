@@ -1,5 +1,5 @@
 doctype html
-html(ng-app="myApp")
+html(ng-app="myApp", ng-class="{overlay: loggedIn}")
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
@@ -25,8 +25,8 @@ html(ng-app="myApp")
     script(src='../bower_components/Materialize/bin/materialize.js')
     script(src='../bower_components/angular/angular.js')
     script(src='../bower_components/angular-route/angular-route.js')
-    script(src='../bower_components/materialize/bin/materialize.js')
     script(src='../bower_components/angular-materialize/src/angular-materialize.js')
+    script(src='../bower_components/angular-animate/angular-animate.js')
     // endbower  
 
     //- app js

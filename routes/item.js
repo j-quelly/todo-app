@@ -1,25 +1,25 @@
-/* 
- * item API
+/** 
+ * Item
  */
 
 
-/* express server app dependencies */
+// express server app dependencies 
 var express = require('express'),
     router = express.Router(),
 
     // colors for dev
     colors = require('colors'),
 
-    /* require our item model */
+    // require our item model 
     Item = require('../models/item.js');
 
 
-// create item then send back all items 
+/**
+ * Create Item
+ */
 router.post('/', function(req, res) {
 
-    console.log(req.userr.red);
-
-    /* create a todo, information comes from AJAX request from Angular */
+    // pass the item body and the user id
     Item.create({
         body: req.body.body,
         user: req.user._id
@@ -28,53 +28,55 @@ router.post('/', function(req, res) {
             res.send(err);
         }
 
-        // return all the items
+        // find all items where the user id matches who's logged in
         Item.find({
             user: req.user._id
         }, function(err, items) {
+            // on error
             if (err) {
                 res.send(err);
             }
 
+            // return the object
+            // .json sets the headers, yay frameworks!
             res.json(items);
         });
+
     });
 });
 
 
-// get all items
+/**
+ * Read Item
+ */
 router.get('/', function(req, res) {
 
-    // use mongoose to get all todos in the database
+    // use mongoose to find all items that match the user
     Item.find({
         user: req.user._id
     }, function(err, items) {
-
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        // if there is an error, send it!
         if (err) {
             res.send(err);
         }
 
-        // return all todos in JSON format
+        // return javascript obejct notation
         res.json(items);
     });
 });
 
 
 /**
- * update 
+ * Update Item
  */
-// complete item
 router.put('/:item_id', function(req, res, next) {
-
-    console.log(req.body.status);
 
     // update the items status
     Item.update({
         _id: req.params.item_id
     }, {
         complete: req.body.status
-    }, function(err, numberAffected, response) {
+    }, function(err, items, response) {
         if (err) {
             return next(err);
         }
@@ -84,7 +86,9 @@ router.put('/:item_id', function(req, res, next) {
 });
 
 
-// delete a todo
+/**
+ * Delete Item
+ */
 router.delete('/:item_id', function(req, res) {
 
     // remove item
@@ -95,8 +99,7 @@ router.delete('/:item_id', function(req, res) {
             res.send(err);
         }
 
-        // get and return all the todos after you create another
-        // do we really have to do this?
+        // find all items that match user and return them
         Item.find({
             user: req.user._id
         }, function(err, items) {
@@ -104,6 +107,7 @@ router.delete('/:item_id', function(req, res) {
                 res.send(err);
             }
 
+            // return json object
             res.json(items);
         });
     });
