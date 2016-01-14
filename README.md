@@ -1,7 +1,7 @@
 # todo-app
 - MEAN stack app for PLAR
 
-### Current Version: 3.3.2
+### Current Version: 3.4.2
 
 ## Getting Started
 1. ```$ npm install```

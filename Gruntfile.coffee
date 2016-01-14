@@ -107,22 +107,26 @@ module.exports = (grunt) ->
 		bower_concat: 
 			build: 
 		    	dest: 'public/js/lib.js' 
+		    	dependencies: 
+		    		'materialize' : 'jquery'
+		    		'angular-materialize' : 'materialize'
+		    	include: [
+		    		'jquery',
+		    		'materialize',
+		    		'angular',
+		    		'angular-route',
+		    		'angular-materialize',
+		    		'angular-animate'
+		    	]
+
 
 
 		# minify js
 		uglify:
 			build:
 				options:
-					compress: true
-					mangle: true
 					beautify: false
 				files:	
-					"public<%= path.sep %>js<%= path.sep %>app.min.js" : [
-						'public<%= path.sep %>js<%= path.sep %>app.js'
-						'public<%= path.sep %>js<%= path.sep %>controllers.js'
-						'public<%= path.sep %>js<%= path.sep %>directives.js'
-						'public<%= path.sep %>js<%= path.sep %>services.js'						
-					],	
 					"public<%= path.sep %>js<%= path.sep %>lib.min.js" : 'public<%= path.sep %>js<%= path.sep %>lib.js'				
 
 
@@ -138,6 +142,20 @@ module.exports = (grunt) ->
 
 		# replace dev dep with build dependencies
 		'string-replace': 
+			dev:
+				files:
+					'views<%= path.sep %>layout.jade' : 'views<%= path.sep %>layout.jade'
+				options:
+					replacements: [
+						{
+							pattern: 'link(rel="stylesheet", href="css/app.min.css")' 
+							replacement: 'link(rel="stylesheet", href="css/app.css")' 
+						},
+						{
+							pattern: "script(src='js/lib.min.js')"
+							replacement: ""
+						}																		
+					]		
 			build:
 				files:
 					'views<%= path.sep %>layout.jade' : 'views<%= path.sep %>layout.jade'
@@ -170,23 +188,7 @@ module.exports = (grunt) ->
 						{
 							pattern: "script(src='../bower_components/angular-animate/angular-animate.js')"
 							replacement: "script(src='js/lib.min.js')"
-						},																		
-						{
-							pattern: "script(src='js/app.js')"
-							replacement: ""
-						},
-						{
-							pattern: "script(src='js/services.js')"
-							replacement: ""
-						},
-						{
-							pattern: "script(src='js/controllers.js')"
-							replacement: ""
-						},
-						{
-							pattern: "script(src='js/directives.js')"
-							replacement: "script(src='js/app.min.js')"
-						},												
+						}
 					]								
 
 
@@ -199,5 +201,5 @@ module.exports = (grunt) ->
 
 	# register our grunt tasks
 	grunt.registerTask("default", ["availabletasks"])
-	grunt.registerTask("serve-dev", ["wiredep", "sass:dev", "concurrent:dev"])
-	grunt.registerTask("build", ["bower_concat:build", "uglify:build", "cssmin:build", "string-replace:build"])
+	grunt.registerTask("serve-dev", ["string-replace:dev", "wiredep", "sass:dev", "concurrent:dev"])
+	grunt.registerTask("build", ["bower_concat:build", "uglify:build", "cssmin:build", "string-replace:build", "nodemon"])

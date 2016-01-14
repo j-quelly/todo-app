@@ -118,7 +118,7 @@ a {
         width: 100%;
     }
     .card-panel {
-        // padding-bottom: 50px;
+        padding-bottom: 50px;
     }
 }
 
@@ -136,7 +136,7 @@ a {
 
 .search {
     .search-wrapper {
-        transition: margin 0.5s ease 0s;
+        transition: margin 0.25s ease 0s;
         i.material-icons {
             cursor: pointer;
             position: absolute;
@@ -195,7 +195,7 @@ a {
         text-transform: uppercase;
     }
     .card-panel {
-        padding-bottom: 50px;
+        // padding-bottom: 50px;
     }
 }
 
@@ -244,10 +244,10 @@ main {
 .item.ng-enter,
 .item.ng-leave,
 .item.ng-move {
-    -webkit-transition: 0.5s linear all;
-    -moz-transition: 0.5s linear all;
-    -o-transition: 0.5s linear all;
-    transition: 0.5s linear all;
+    -webkit-transition: 0.25s linear all;
+    -moz-transition: 0.25s linear all;
+    -o-transition: 0.25s linear all;
+    transition: 0.25s linear all;
 }
 
 .item.ng-enter,
@@ -276,17 +276,17 @@ main {
 }
 
 .fade.ng-hide {
-    -webkit-animation: 0.5s fade-out;
-    -moz-animation: 0.5s fade-out;
-    -o-animation: 0.5s fade-out;
-    animation: 0.5s fade-out;
+    -webkit-animation: 0.25s fade-out;
+    -moz-animation: 0.25s fade-out;
+    -o-animation: 0.25s fade-out;
+    animation: 0.25s fade-out;
 }
 
 .fade.ng-show {
-    -webkit-animation: 0.5s fade-in;
-    -moz-animation: 0.5s fade-in;
-    -o-animation: 0.5s fade-in;
-    animation: 0.5s fade-in;
+    -webkit-animation: 0.25s fade-in;
+    -moz-animation: 0.25s fade-in;
+    -o-animation: 0.25s fade-in;
+    animation: 0.25s fade-in;
 }
 
 @keyframes fade-in {
