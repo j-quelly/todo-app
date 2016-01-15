@@ -7,10 +7,10 @@
 		.card-panel.grey.lighten-4
 			.row.no-margin-bottom
 				.center
-					i.large.material-icons 
+					i.large.material-icons  
 						| account_circle
 				//- action attribute exists so there is a "go" button on mobile devices
-				form.form(ng-submit="login()", action="")
+				form.form(ng-submit="login()")
 					.input-field.col.s12(input-field)
 						input.validate(type='email', ng-model="loginForm.username")
 						label Email Address

@@ -5,12 +5,12 @@
 
   .col.l4.offset-l4.m6.offset-m3 
     .card-panel.grey.lighten-4
-      .row.no-margin-bottom
+      .row.no-margin-bottom 
         .center
           i.large.material-icons 
             | account_circle
 
-        form.form(ng-submit="register()", action="")
+        form.form(ng-submit="register()")
 
           .input-field.col.s12(input-field)
             input.validate(type='email', ng-model="registerForm.username")
