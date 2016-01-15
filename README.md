@@ -18,7 +18,7 @@
 - v3.4.3 (1/13/2016 - 1/14/2016)
 	- reduces server requests
 	- fixes chrome bug
-	- fixes IE bug
+	- fixes IE bug 
 - v3.4.2 (1/13/2016)
 	- adds comments
 	- minor aesthetic changes
