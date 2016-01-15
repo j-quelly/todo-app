@@ -210,7 +210,7 @@ angular.module('myApp').factory('UserService', ['$q', '$http',
                  */
                 .success(function(data, status) {
                     if (status === 200 && data.status) {
-                        deferred.resolve();
+                        deferred.resolve(data);
                     } else {
                         deferred.reject();
                     }
@@ -218,7 +218,7 @@ angular.module('myApp').factory('UserService', ['$q', '$http',
                 /* on error set the user to false
                  * and reject the promise 
                  */
-                .error(function(data) {
+                .error(function() {
                     deferred.reject();
                 });
 

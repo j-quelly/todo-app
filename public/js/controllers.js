@@ -6,24 +6,14 @@
 /**
  * To do list Controller
  */
-angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService', 'UserService',
-    function($scope, ItemService, UserService) {
+angular.module('myApp').controller('TodoListController', ['$rootScope', '$scope', 'ItemService', 'UserService',
+    function($rootScope, $scope, ItemService, UserService) {
 
         // start with an empty array of items
         $scope.items = [];
         // set the icon for the search bar (see main.jade for why)
         $scope.icon = 'search';
-
-        // use this service to get the username
-        UserService.userStatus()
-            .then(function(data) {
-                // set the username to display a friendly message to the user
-                $scope.username = data.username;
-            })
-            // handle error 
-            .catch(function() {
-                $location.path('/login');
-            });
+        $scope.username = $rootScope.username;
 
         // use our service to get all the users items
         ItemService.getItems()
@@ -142,9 +132,9 @@ angular.module('myApp').controller('TodoListController', ['$scope', 'ItemService
 /**
  * Login Controller
  */
-angular.module('myApp').controller('LoginController', ['$scope', '$location', 'UserService',
+angular.module('myApp').controller('LoginController', ['$rootScope', '$scope', '$location', 'UserService',
 
-    function($scope, $location, UserService) {
+    function($rootScope, $scope, $location, UserService) {
 
         // create an empty object for the form 
         $scope.loginForm = {};
@@ -157,7 +147,9 @@ angular.module('myApp').controller('LoginController', ['$scope', '$location', 'U
             // call login from the authentication service 
             UserService.login($scope.loginForm.username, $scope.loginForm.password)
                 // on success redirect to root 
-                .then(function() {
+                .then(function(data) {
+                    $rootScope.loggedIn = true;
+                    $rootScope.username = data.username;
                     $location.path('/');
                 })
                 // on error retrun a friendly message that the td-toast directive is watching for 

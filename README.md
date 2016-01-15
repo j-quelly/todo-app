@@ -1,7 +1,7 @@
 # todo-app
 - MEAN stack app for PLAR
 
-### Current Version: 3.4.2
+### Current Version: 3.4.3
 
 ## Getting Started
 1. ```$ npm install```
@@ -15,7 +15,9 @@
 ```$ grunt serve-dev```
 
 ## Changelog
-- v3.4.2 (1/13/2016 - 1/14/2016)
+- v3.4.3 (1/13/2016 - 1/14/2016)
+	- reduces server requests
+- v3.4.2 (1/13/2016)
 	- adds comments
 	- minor aesthetic changes
 	- adds some animations

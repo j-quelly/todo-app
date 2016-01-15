@@ -46,7 +46,7 @@ myApp.run(function($rootScope, $location, UserService) {
             unrestricted = ['/register', '/login'];
 
 
-        if (unrestricted.indexOf(currentPage) === -1) {
+        if (unrestricted.indexOf(currentPage) === -1 && !$rootScope.loggedIn) {
             // user service to check if the user is logged in
             UserService.userStatus()
                 .then(function(data) {
@@ -55,6 +55,7 @@ myApp.run(function($rootScope, $location, UserService) {
                      * and footer
                      */
                     $rootScope.loggedIn = true;
+                    $rootScope.username = data.username;
                     // redirect to root
                     $location.path('/');
                 })

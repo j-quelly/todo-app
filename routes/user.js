@@ -10,6 +10,9 @@ var express = require('express'),
     // passport package for easy authentication 
     passport = require('passport'),
 
+    // colors for dev
+    colors = require('colors'),
+
     // require our user model 
     User = require('../models/user.js');
 
@@ -90,7 +93,8 @@ router.post('/login', function(req, res, next) {
             }
 
             res.status(200).json({
-                status: 'Login successful!'
+                status: 'Login successful!',
+                username: user.username
             });
         });
 
