@@ -40,4 +40,4 @@ $RECYCLE.BIN/
 
 node_modules
 bower_components
-lib
+lib/connection.js
