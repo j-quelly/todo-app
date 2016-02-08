@@ -1,7 +1,7 @@
 # todo-app
 - MEAN stack app for PLAR
 
-### Current Version: 3.4.3
+### Current Version: 3.4.4
 
 ## Getting Started
 1. ```$ npm install```
@@ -15,6 +15,8 @@
 ```$ grunt serve-dev```
 
 ## Changelog
+- v3.4.3 (2/8/2016)
+	- removes mongo credentials
 - v3.4.3 (1/13/2016 - 1/14/2016)
 	- reduces server requests
 	- fixes chrome bug
