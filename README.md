@@ -9,7 +9,7 @@
 3. Open browser to http://localhost:3000
 
 ## Default Usage
-```$ npm start```
+https://lit-coast-5603.herokuapp.com/#/login
 
 ## Alternative Usage
 ```$ grunt serve-dev```
